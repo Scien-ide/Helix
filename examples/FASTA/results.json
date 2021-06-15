@@ -1,0 +1,25 @@
+{
+    "top10": {
+        "GAGGCGCGAGCAGCAGCTGAGGCGC": 14,
+        "GGCGCGAGCAGCAGCTGAGGCGCGA": 14,
+        "CTCGCGCCTCAGCTGCTGCTCGCGC": 14,
+        "CGCGAGCAGCAGCTGAGGCGCGAGC": 14,
+        "GCGAGCAGCAGCTGAGGCGCGAGCA": 14,
+        "CGAGCAGCAGCTGAGGCGCGAGCAG": 14,
+        "AGGCGCGAGCAGCAGCTGAGGCGCG": 14,
+        "CCCCCGTGCCGCCCACGGGTGACTC": 10,
+        "CCCCGTGCCGCCCACGGGTGACTCC": 10,
+        "CCCGTGCCGCCCACGGGTGACTCCG": 10
+    },
+    "numSingletons": 329532,
+    "numNonSingletons": 2066,
+    "numUniqueSequences": 330296,
+    "totalSequences": 331598,
+    "filter": {
+        "numHashes": 4,
+        "numLayers": 1,
+        "size": 64000000,
+        "capacity": 0.979789609375,
+        "falsePositiveRate": 3.6374223082185836e-5
+    }
+}

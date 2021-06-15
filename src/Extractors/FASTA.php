@@ -1,0 +1,109 @@
+<?php
+
+namespace DNAHash\Extractors;
+
+use DNAHash\Exceptions\InvalidArgumentException;
+use DNAHash\Exceptions\RuntimeException;
+use Generator;
+
+use function is_dir;
+use function is_file;
+use function is_readable;
+use function substr;
+use function trim;
+use function fopen;
+use function feof;
+use function fgets;
+use function fclose;
+
+/**
+ * FASTA
+ *
+ * A memory-efficient FASTA dataset extractor.
+ *
+ * @category    Bioinformatics
+ * @package     andrewdalpino/DNAHash
+ * @author      Andrew DalPino
+ */
+class FASTA implements Extractor
+{
+    /**
+     * The character that represents the start of a new read.
+     *
+     * @var string
+     */
+    private const HEADER_DELIMITER = '>';
+
+    /**
+     * The path to the file on disk.
+     *
+     * @var string
+     */
+    protected string $path;
+
+    /**
+     * @param string $path
+     * @throws \DNAHash\Exceptions\InvalidArgumentException
+     */
+    public function __construct(string $path)
+    {
+        if (empty($path)) {
+            throw new InvalidArgumentException('Path cannot be empty.');
+        }
+
+        if (is_dir($path)) {
+            throw new InvalidArgumentException('Path must be to a file, folder given.');
+        }
+
+        if (!is_file($path)) {
+            throw new InvalidArgumentException("Path $path is not a file.");
+        }
+
+        if (!is_readable($path)) {
+            throw new InvalidArgumentException("Path $path is not readable.");
+        }
+
+        $this->path = $path;
+    }
+
+    /**
+     * Return an iterator for the records in the data table.
+     *
+     * @throws \DNAHash\Exceptions\RuntimeException
+     * @return \Generator<string>
+     */
+    public function getIterator() : Generator
+    {
+        $handle = fopen($this->path, 'r');
+
+        if (!$handle) {
+            throw new RuntimeException('Could not open file pointer.');
+        }
+
+        rewind($handle);
+
+        $header = $buffer = '';
+
+        while (!feof($handle)) {
+            $data = trim(fgets($handle) ?: '');
+
+            if (substr($data, 0, 1) === self::HEADER_DELIMITER) {
+                if (!empty($buffer)) {
+                    yield $header => $buffer;
+                }
+
+                $header = substr($data, 1);
+
+                $buffer = '';
+            } else {
+                $buffer .= $data;
+            }
+        }
+
+        if (!empty($buffer)) {
+            yield $header => $buffer;
+        }
+
+        fclose($handle);
+    }
+}

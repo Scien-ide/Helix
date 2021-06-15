@@ -1,0 +1,58 @@
+{
+    "name": "scienide/dnahash",
+    "type": "library",
+    "description": "A PHP hash table optimized for counting short gene sequences called k-mers for use in Bioinformatics.",
+    "license": "MIT",
+    "readme": "README.md",
+    "keywords": [
+        "gene sequences", "k-mer counting", "k-mer", "bloom filter", "bioinformatics", "fasta"
+    ],
+    "authors": [
+        {
+            "name": "Andrew DalPino",
+            "role": "Lead Developer",
+            "homepage": "https://github.com/andrewdalpino",
+            "email": "support@andrewdalpino.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "scienide/okbloomer": "dev-master"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.88",
+        "phpunit/phpunit": "^9.5",
+        "phpbench/phpbench": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DNAHash\\": "src/"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DNAHash\\Benchmarks\\": "benchmarks/",
+            "DNAHash\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "analyze": "phpstan analyse -c phpstan.neon",
+        "benchmark": "phpbench run --report=aggregate",
+        "build": [
+            "@composer install",
+            "@analyze",
+            "@test",
+            "@check"
+        ],
+        "check": [
+            "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
+            "php-cs-fixer fix --config=.php_cs.dist.php -v --dry-run --using-cache=no"
+        ],
+        "fix": "php-cs-fixer fix --config=.php_cs.dist.php",
+        "test": "phpunit"
+    }
+}
