@@ -172,16 +172,6 @@ class DNAHash implements ArrayAccess, Countable
     }
 
     /**
-     * Return the underlying Bloom filter.
-     *
-     * @return \OkBloomer\BloomFilter
-     */
-    public function filter() : BloomFilter
-    {
-        return $this->filter;
-    }
-
-    /**
      * Import a sequence dataset into the hash table.
      *
      * @param iterable<string> $iterator
@@ -222,6 +212,16 @@ class DNAHash implements ArrayAccess, Countable
         } else {
             ++$this->numSingletons;
         }
+    }
+
+    /**
+     * Return the underlying Bloom filter.
+     *
+     * @return \OkBloomer\BloomFilter
+     */
+    public function filter() : BloomFilter
+    {
+        return $this->filter;
     }
 
     /**

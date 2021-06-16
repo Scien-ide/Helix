@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "scienide/okbloomer": "dev-master"
+        "scienide/okbloomer": "^1.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.88",
@@ -54,5 +54,23 @@
         ],
         "fix": "php-cs-fixer fix --config=.php_cs.dist.php",
         "test": "phpunit"
-    }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/andrewdalpino"
+        }
+    ],
+    "support": {
+        "docs": "https://github.com/Scien-ide/DNAHash/README.md",
+        "issues": "https://github.com/Scien-ide/DNAHash/issues",
+        "source": "https://github.com/Scien-ide/DNAHash",
+        "email": "support@andrewdalpino.com"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
