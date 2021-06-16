@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash\Tokenizers;
+namespace DNAHash\Extractors;
 
 use DNAHash\Exceptions\InvalidArgumentException;
 use Generator;
@@ -17,7 +17,7 @@ use Generator;
  * @package     andrewdalpino/DNAHash
  * @author      Andrew DalPino
  */
-class Kmer implements Tokenizer
+class Kmer implements Extractor
 {
     /**
      * The length of tokenized sequences.
@@ -25,6 +25,13 @@ class Kmer implements Tokenizer
      * @var int
      */
     protected int $k;
+
+    /**
+     * The base iterator.
+     *
+     * @var iterable<string>
+     */
+    protected iterable $iterator;
 
     /**
      * The number of k-mers that were dropped due to invalid bases.
@@ -35,9 +42,10 @@ class Kmer implements Tokenizer
 
     /**
      * @param int $k
+     * @param iterable<string> $iterator
      * @throws \DNAHash\Exceptions\InvalidArgumentException
      */
-    public function __construct(int $k)
+    public function __construct(int $k, iterable $iterator)
     {
         if ($k < 1) {
             throw new InvalidArgumentException('K must be'
@@ -45,6 +53,7 @@ class Kmer implements Tokenizer
         }
 
         $this->k = $k;
+        $this->iterator = $iterator;
     }
 
     /**
@@ -58,31 +67,30 @@ class Kmer implements Tokenizer
     }
 
     /**
-     * Tokenize a read.
+     * Return an iterator for the sequences in a dataset.
      *
-     * @internal
-     *
-     * @param string $read
      * @return \Generator<string>
      */
-    public function tokenize(string $read) : Generator
+    public function getIterator() : Generator
     {
-        $p = strlen($read) - $this->k;
+        foreach ($this->iterator as $read) {
+            $p = strlen($read) - $this->k;
 
-        for ($i = 0; $i <= $p; ++$i) {
-            $sequence = substr($read, $i, $this->k);
+            for ($i = 0; $i <= $p; ++$i) {
+                $sequence = substr($read, $i, $this->k);
 
-            if (preg_match('/[^ACTG]/', $sequence, $matches, PREG_OFFSET_CAPTURE)) {
-                $skip = 1 + (int) $matches[0][1];
+                if (preg_match('/[^ACTG]/', $sequence, $matches, PREG_OFFSET_CAPTURE)) {
+                    $skip = 1 + (int) $matches[0][1];
 
-                $i += $skip;
+                    $i += $skip;
 
-                $this->dropped += $skip;
+                    $this->dropped += $skip;
 
-                continue;
+                    continue;
+                }
+
+                yield $sequence;
             }
-
-            yield $sequence;
         }
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace DNAHash\Tokenizers;
+namespace DNAHash\Extractors;
 
+use DNAHash\Exceptions\InvalidBase;
 use Generator;
 
 /**
@@ -11,7 +12,7 @@ use Generator;
  * @package     andrewdalpino/DNAHash
  * @author      Andrew DalPino
  */
-class Canonical implements Tokenizer
+class Canonical implements Extractor
 {
     /**
      * The mapping of bases to their complimentary bases.
@@ -26,11 +27,11 @@ class Canonical implements Tokenizer
     ];
 
     /**
-     * The base tokenizer.
+     * The base iterator.
      *
-     * @var \DNAHash\Tokenizers\Tokenizer
+     * @var iterable<string>
      */
-    protected \DNAHash\Tokenizers\Tokenizer $base;
+    protected iterable $iterator;
 
     /**
      * Return the reverse compliment of a sequence.
@@ -45,33 +46,34 @@ class Canonical implements Tokenizer
         $reverseCompliment = '';
 
         for ($i = $k - 1; $i >= 0; --$i) {
-            $reverseCompliment .= self::BASE_COMPLIMENT_MAP[$sequence[$i]];
+            $base = $sequence[$i];
+
+            if (!isset(self::BASE_COMPLIMENT_MAP[$base])) {
+                throw new InvalidBase($base, self::BASE_COMPLIMENT_MAP);
+            }
+
+            $reverseCompliment .= self::BASE_COMPLIMENT_MAP[$base];
         }
 
         return $reverseCompliment;
     }
 
     /**
-     * @param \DNAHash\Tokenizers\Tokenizer $base
+     * @param iterable<string> $iterator
      */
-    public function __construct(Tokenizer $base)
+    public function __construct(iterable $iterator)
     {
-        $this->base = $base;
+        $this->iterator = $iterator;
     }
 
     /**
-     * Tokenize a sequence.
+     * Return an iterator for the sequences in a dataset.
      *
-     * @internal
-     *
-     * @param string $read
      * @return \Generator<string>
      */
-    public function tokenize(string $read) : Generator
+    public function getIterator() : Generator
     {
-        $sequences = $this->base->tokenize($read);
-
-        foreach ($sequences as $sequence) {
+        foreach ($this->iterator as $sequence) {
             yield min($sequence, self::reverseCompliment($sequence));
         }
     }

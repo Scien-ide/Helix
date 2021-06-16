@@ -3,7 +3,6 @@
 namespace DNAHash\Benchmarks;
 
 use DNAHash\DNAHash;
-use DNAHash\Tokenizers\Kmer;
 
 /**
  * @BeforeMethods({"setUp"})
@@ -14,7 +13,7 @@ class DNAHashBench
         'A', 'C', 'G', 'T',
     ];
 
-    private const NUM_SEQUENCES = 1000;
+    private const NUM_SEQUENCES = 100000;
 
     /**
      * @var list<string>
@@ -48,22 +47,19 @@ class DNAHashBench
         $sequences = [];
 
         for ($i = 0; $i < self::NUM_SEQUENCES; ++$i) {
-            $sequences[] = self::generateRead(100);
+            $sequences[] = self::generateRead(25);
         }
-
-        $this->sequences = $sequences;
 
         $this->hashTable = new DNAHash(0.001, 3);
     }
 
     /**
      * @Subject
-     * @Revs(3)
      * @Iterations(5)
      * @OutputTimeUnit("seconds", precision=3)
      */
     public function import() : void
     {
-        $this->hashTable->import($this->sequences, new Kmer(25));
+        $this->hashTable->import($this->sequences);
     }
 }

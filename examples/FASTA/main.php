@@ -2,11 +2,11 @@
 
 include __DIR__ . '/../../vendor/autoload.php';
 
+use DNAHash\DNAHash;
 use DNAHash\Extractors\Concatenator;
 use DNAHash\Extractors\FASTA;
-use DNAHash\DNAHash;
-use DNAHash\Tokenizers\Canonical;
-use DNAHash\Tokenizers\Kmer;
+use DNAHash\Extractors\Canonical;
+use DNAHash\Extractors\Kmer;
 
 $extractor = new Concatenator([
     new FASTA('datasets/exon-part1.fa'),
@@ -17,18 +17,19 @@ $extractor = new Concatenator([
     new FASTA('datasets/exon-part6.fa'),
 ]);
 
-$hashTable = new DNAHash(0.001);
+$hashTable = new DNAHash(0.001, 4, 8000000);
 
 echo 'Counting sequences ...' . PHP_EOL;
 
-$hashTable->import($extractor, new Canonical(new Kmer(25)));
+$hashTable->import(new Canonical(new Kmer(25, $extractor)));
 
-file_put_contents('results.json', json_encode([
+$report = [
     'top10' => $hashTable->top(10),
     'numSingletons' => $hashTable->numSingletons(),
     'numNonSingletons' => $hashTable->numNonSingletons(),
     'numUniqueSequences' => count($hashTable),
     'totalSequences' => $hashTable->totalSequences(),
+    'histogram' => $hashTable->histogram(10),
     'filter' => [
         'numHashes' => $hashTable->filter()->numHashes(),
         'numLayers' => $hashTable->filter()->numLayers(),
@@ -36,6 +37,8 @@ file_put_contents('results.json', json_encode([
         'capacity' => $hashTable->filter()->capacity(),
         'falsePositiveRate' => $hashTable->filter()->falsePositiveRate(),
     ],
-], JSON_PRETTY_PRINT));
+];
+
+file_put_contents('results.json', json_encode($report, JSON_PRETTY_PRINT));
 
 echo 'Results saved to results.json' . PHP_EOL;

@@ -67,7 +67,7 @@ class FASTA implements Extractor
     }
 
     /**
-     * Return an iterator for the records in the data table.
+     * Return an iterator for the sequences in a dataset.
      *
      * @throws \DNAHash\Exceptions\RuntimeException
      * @return \Generator<string>
@@ -82,26 +82,26 @@ class FASTA implements Extractor
 
         rewind($handle);
 
-        $header = $buffer = '';
+        $header = $sequence = '';
 
         while (!feof($handle)) {
             $data = trim(fgets($handle) ?: '');
 
             if (substr($data, 0, 1) === self::HEADER_DELIMITER) {
-                if (!empty($buffer)) {
-                    yield $header => $buffer;
+                if (!empty($sequence)) {
+                    yield $header => $sequence;
                 }
 
                 $header = substr($data, 1);
 
-                $buffer = '';
+                $sequence = '';
             } else {
-                $buffer .= $data;
+                $sequence .= $data;
             }
         }
 
-        if (!empty($buffer)) {
-            yield $header => $buffer;
+        if (!empty($sequence)) {
+            yield $header => $sequence;
         }
 
         fclose($handle);

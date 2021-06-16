@@ -1,25 +1,37 @@
 {
     "top10": {
+        "CGCGAGCAGCAGCTGAGGCGCGAGC": 14,
         "GAGGCGCGAGCAGCAGCTGAGGCGC": 14,
+        "CGAGCAGCAGCTGAGGCGCGAGCAG": 14,
+        "GCGAGCAGCAGCTGAGGCGCGAGCA": 14,
+        "AGGCGCGAGCAGCAGCTGAGGCGCG": 14,
         "GGCGCGAGCAGCAGCTGAGGCGCGA": 14,
         "CTCGCGCCTCAGCTGCTGCTCGCGC": 14,
-        "CGCGAGCAGCAGCTGAGGCGCGAGC": 14,
-        "GCGAGCAGCAGCTGAGGCGCGAGCA": 14,
-        "CGAGCAGCAGCTGAGGCGCGAGCAG": 14,
-        "AGGCGCGAGCAGCAGCTGAGGCGCG": 14,
-        "CCCCCGTGCCGCCCACGGGTGACTC": 10,
-        "CCCCGTGCCGCCCACGGGTGACTCC": 10,
-        "CCCGTGCCGCCCACGGGTGACTCCG": 10
+        "CCCGTGCCGCCCACGGGTGACTCCG": 10,
+        "CCGGAGTCACCCGTGGGCGGCACGG": 10,
+        "CCCCCGTGCCGCCCACGGGTGACTC": 10
     },
-    "numSingletons": 329532,
-    "numNonSingletons": 2066,
-    "numUniqueSequences": 330296,
+    "numSingletons": 328632,
+    "numNonSingletons": 2966,
+    "numUniqueSequences": 329846,
     "totalSequences": 331598,
+    "histogram": {
+        "1": 328632,
+        "2": 1060,
+        "3": 1098,
+        "4": 1138,
+        "5": 1161,
+        "6": 1173,
+        "7": 1179,
+        "8": 1190,
+        "9": 1203,
+        "14": 1214
+    },
     "filter": {
         "numHashes": 4,
         "numLayers": 1,
-        "size": 64000000,
-        "capacity": 0.979789609375,
-        "falsePositiveRate": 3.6374223082185836e-5
+        "size": 8000000,
+        "capacity": 0.859780125,
+        "falsePositiveRate": 0.00038657903932889644
     }
 }

@@ -3,7 +3,6 @@
 namespace DNAHash;
 
 use OkBloomer\BloomFilter;
-use DNAHash\Tokenizers\Tokenizer;
 use DNAHash\Exceptions\InvalidArgumentException;
 use DNAHash\Exceptions\RuntimeException;
 use DNAHash\Exceptions\SequenceTooLong;
@@ -165,7 +164,7 @@ class DNAHash implements ArrayAccess, Countable
      * @param int $layerSize
      */
     public function __construct(
-        float $maxFalsePositiveRate = 0.001,
+        float $maxFalsePositiveRate = 0.01,
         ?int $numHashes = 4,
         int $layerSize = 64000000
     ) {
@@ -183,18 +182,15 @@ class DNAHash implements ArrayAccess, Countable
     }
 
     /**
-     * Import a dataset into the hash table.
+     * Import a sequence dataset into the hash table.
      *
      * @param iterable<string> $iterator
-     * @param \DNAHash\Tokenizers\Tokenizer $tokenizer
      * @return self
      */
-    public function import(iterable $iterator, Tokenizer $tokenizer) : self
+    public function import(iterable $iterator) : self
     {
-        foreach ($iterator as $read) {
-            foreach ($tokenizer->tokenize($read) as $sequence) {
-                $this->increment($sequence);
-            }
+        foreach ($iterator as $sequence) {
+            $this->increment($sequence);
         }
 
         return $this;

@@ -59,7 +59,7 @@ class Plain implements Extractor
     }
 
     /**
-     * Return an iterator for the records in the data table.
+     * Return an iterator for the sequences in a dataset.
      *
      * @throws \DNAHash\Exceptions\RuntimeException
      * @return \Generator<string>
@@ -75,10 +75,10 @@ class Plain implements Extractor
         rewind($handle);
 
         while (!feof($handle)) {
-            $data = trim(fgets($handle) ?: '');
+            $sequence = trim(fgets($handle) ?: '');
 
-            if (!empty($data)) {
-                yield $data;
+            if (!empty($sequence)) {
+                yield $sequence;
             }
         }
 

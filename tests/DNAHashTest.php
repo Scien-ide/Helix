@@ -3,8 +3,8 @@
 namespace DNAHash\Tests;
 
 use DNAHash\DNAHash;
-use DNAHash\Tokenizers\Canonical;
-use DNAHash\Tokenizers\Kmer;
+use DNAHash\Extractors\Canonical;
+use DNAHash\Extractors\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -58,7 +58,9 @@ class DNAHashTest extends TestCase
             }
         };
 
-        $this->hashTable->import($iterator(), new Canonical(new Kmer(5)));
+        $extractor = new Canonical(new Kmer(5, $iterator()));
+
+        $this->hashTable->import($extractor);
     }
 
     /**

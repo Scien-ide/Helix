@@ -16,31 +16,30 @@ use Generator;
 class Concatenator implements Extractor
 {
     /**
-     * A list of extractors.
+     * A list of iterators.
      *
-     * @var list<\DNAHash\Extractors\Extractor>
+     * @var list<iterable>
      */
-    protected array $extractors;
+    protected array $iterators;
 
     /**
-     * @param \DNAHash\Extractors\Extractor[] $extractors
+     * @param iterable[] $iterators
      */
-    public function __construct(array $extractors)
+    public function __construct(array $iterators)
     {
-        $this->extractors = array_values($extractors);
+        $this->iterators = array_values($iterators);
     }
 
     /**
-     * Return an iterator for the records in the data table.
+     * Return an iterator for the sequences in a dataset.
      *
-     * @throws \DNAHash\Exceptions\RuntimeException
      * @return \Generator<string>
      */
     public function getIterator() : Generator
     {
-        foreach ($this->extractors as $extractor) {
-            foreach ($extractor as $record) {
-                yield $record;
+        foreach ($this->iterators as $iterator) {
+            foreach ($iterator as $sequence) {
+                yield $sequence;
             }
         }
     }
