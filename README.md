@@ -25,8 +25,8 @@ $ composer require scienide/dnahash
 ```php
 use DNAHash\DNAHash;
 use DNAHash\Extractors\FASTA;
-use DNAHash\Tokenizers\Canonical;
-use DNAHash\Tokenizers\Kmer;
+use DNAHash\Extractors\Canonical;
+use DNAHash\Extractors\Kmer;
 
 $hashTable = new DNAHash(0.001);
 
@@ -58,7 +58,7 @@ echo $hashTable->falsePositiveRate();
 ```
 
 ```
-7.10344e-5
+0.0003865
 ```
 
 ## Testing
