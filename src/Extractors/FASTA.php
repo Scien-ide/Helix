@@ -28,11 +28,18 @@ use function fclose;
 class FASTA implements Extractor
 {
     /**
-     * The character that represents the start of a new read.
+     * The character that represents the start of the header of a new read.
      *
      * @var string
      */
     private const HEADER_DELIMITER = '>';
+
+    /**
+     * The character that represents the start of a comment.
+     *
+     * @var string
+     */
+    private const COMMENT_DELIMITER = ';';
 
     /**
      * The path to the file on disk.
@@ -87,16 +94,27 @@ class FASTA implements Extractor
         while (!feof($handle)) {
             $data = trim(fgets($handle) ?: '');
 
-            if (substr($data, 0, 1) === self::HEADER_DELIMITER) {
-                if (!empty($sequence)) {
-                    yield $header => $sequence;
-                }
+            if (empty($data)) {
+                continue;
+            }
 
-                $header = substr($data, 1);
+            switch ($data[0]) {
+                case self::HEADER_DELIMITER:
+                    if (!empty($sequence)) {
+                        yield $header => $sequence;
+                    }
 
-                $sequence = '';
-            } else {
-                $sequence .= $data;
+                    $header = substr($data, 1);
+
+                    $sequence = '';
+
+                    break;
+
+                case self::COMMENT_DELIMITER:
+                    continue 2;
+
+                default:
+                    $sequence .= $data;
             }
         }
 

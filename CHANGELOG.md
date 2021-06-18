@@ -1,2 +1,2 @@
 - 1.0.0-beta1
-    Initial release
+    - FASTA extractor now handles comments
