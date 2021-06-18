@@ -337,17 +337,13 @@ class DNAHash implements ArrayAccess, Countable
             $max = (int) max($this->counts);
         }
 
-        $interval = (int) round($max / $bins);
+        $interval = (int) ceil($max / $bins);
 
         $edges = [$interval];
-
-        --$bins;
 
         while (count($edges) < $bins) {
             $edges[] = end($edges) + $interval;
         }
-
-        $edges[] = $max;
 
         $histogram = array_fill_keys($edges, 0);
 
@@ -355,6 +351,8 @@ class DNAHash implements ArrayAccess, Countable
             foreach ($edges as $edge) {
                 if ($count <= $edge) {
                     ++$histogram[$edge];
+
+                    break;
                 }
             }
         }

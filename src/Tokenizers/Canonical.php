@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash\Extractors;
+namespace DNAHash\Tokenizers;
 
 use DNAHash\Exceptions\InvalidBase;
 use Generator;
@@ -12,7 +12,7 @@ use Generator;
  * @package     andrewdalpino/DNAHash
  * @author      Andrew DalPino
  */
-class Canonical implements Extractor
+class Canonical implements Tokenizer
 {
     /**
      * The mapping of bases to their complimentary bases.

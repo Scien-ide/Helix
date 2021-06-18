@@ -2,18 +2,18 @@
 
 namespace DNAHash\Tests\Extractors;
 
-use DNAHash\Extractors\Canonical;
-use DNAHash\Extractors\Kmer;
+use DNAHash\Tokenizers\Canonical;
+use DNAHash\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Extractors
- * @covers \DNAHash\Extractors\Canonical
+ * @covers \DNAHash\Tokenizers\Canonical
  */
 class CanonicalTest extends TestCase
 {
     /**
-     * @var \DNAHash\Extractors\Canonical
+     * @var \DNAHash\Tokenizers\Canonical
      */
     protected $extractor;
 

@@ -3,8 +3,8 @@
 namespace DNAHash\Tests;
 
 use DNAHash\DNAHash;
-use DNAHash\Extractors\Canonical;
-use DNAHash\Extractors\Kmer;
+use DNAHash\Tokenizers\Canonical;
+use DNAHash\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -117,9 +117,9 @@ class DNAHashTest extends TestCase
         $expected = [
             7 => 0,
             14 => 65,
-            21 => 344,
-            28 => 495,
-            34 => 512,
+            21 => 279,
+            28 => 151,
+            35 => 17,
         ];
 
         $this->assertEquals($expected, $this->hashTable->histogram(5));

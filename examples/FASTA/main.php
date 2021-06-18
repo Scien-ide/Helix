@@ -5,8 +5,8 @@ include __DIR__ . '/../../vendor/autoload.php';
 use DNAHash\DNAHash;
 use DNAHash\Extractors\Concatenator;
 use DNAHash\Extractors\FASTA;
-use DNAHash\Extractors\Canonical;
-use DNAHash\Extractors\Kmer;
+use DNAHash\Tokenizers\Canonical;
+use DNAHash\Tokenizers\Kmer;
 
 $extractor = new Concatenator([
     new FASTA('datasets/exon-part1.fa'),

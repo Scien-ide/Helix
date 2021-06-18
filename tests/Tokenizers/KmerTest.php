@@ -2,17 +2,17 @@
 
 namespace DNAHash\Tests\Extractors;
 
-use DNAHash\Extractors\Kmer;
+use DNAHash\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Extractors
- * @covers \DNAHash\Extractors\Kmer
+ * @covers \DNAHash\Tokenizers\Kmer
  */
 class KmerTest extends TestCase
 {
     /**
-     * @var \DNAHash\Extractors\Kmer
+     * @var \DNAHash\Tokenizers\Kmer
      */
     protected $extractor;
 

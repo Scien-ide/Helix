@@ -1,12 +1,12 @@
 # DNA Hash
-A PHP hash table optimized for counting short gene sequences called k-mers for use in Bioinformatics. DNA Hash stores sequence counts indexed by their up2bit encoding - a two-way hash function that exploits the fact that each DNA base need only 2 bits to be fully encoded. Accordingly, DNA Hash uses less memory than a lookup table that stores raw gene sequences. In addition, DNA Hash's layered Bloom filter eliminates the need to explicitly store counts for sequences that have only been seen once.
+A PHP hash table optimized for counting short gene sequences for use in Bioinformatics. DNA Hash stores sequence counts by their up2bit encoding - a two-way hash that exploits the fact that each DNA base need only 2 bits to be fully encoded. Accordingly, DNA Hash uses less memory than a lookup table that stores raw gene sequences. In addition, DNA Hash's layered Bloom filter eliminates the need to explicitly store counts for sequences that have only been seen once.
 
-- Ultra low memory footprint
-- Compatible with multiple dataset formats
-- Supports canonical sequence counting
-- Open-source and free to use commercially
+- **Ultra-low** memory footprint
+- **Compatible** with multiple dataset formats
+- **Supports** canonical sequence counting
+- **Open-source** and free to use commercially
 
-> **Note:** The maximum sequence length (k) is platform dependent. On a 64-bit machine, the max length is 31. On a 32-bit machine, the max length is 15.
+> **Note:** The maximum sequence length is platform dependent. On a 64-bit machine, the max length is 31. On a 32-bit machine, the max length is 15.
 
 > **Note:** Due to the probabilistic nature of the Bloom filter, DNA Hash may under count unique sequences at a bounded rate.
 
@@ -25,12 +25,14 @@ $ composer require scienide/dnahash
 ```php
 use DNAHash\DNAHash;
 use DNAHash\Extractors\FASTA;
-use DNAHash\Extractors\Canonical;
-use DNAHash\Extractors\Kmer;
+use DNAHash\Tokenizers\Canonical;
+use DNAHash\Tokenizers\Kmer;
+
+$extractor = new FASTA('example.fa');
 
 $hashTable = new DNAHash(0.001);
 
-$hashTable->import(new FASTA('example.fa'), new Canonical(new Kmer(25)));
+$hashTable->import(new Canonical(new Kmer(25, $extractor)));
 
 $top10 = $hashTable->top(10);
 

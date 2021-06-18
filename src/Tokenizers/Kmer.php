@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash\Extractors;
+namespace DNAHash\Tokenizers;
 
 use DNAHash\Exceptions\InvalidArgumentException;
 use Generator;
@@ -17,7 +17,7 @@ use Generator;
  * @package     andrewdalpino/DNAHash
  * @author      Andrew DalPino
  */
-class Kmer implements Extractor
+class Kmer implements Tokenizer
 {
     /**
      * The length of tokenized sequences.
