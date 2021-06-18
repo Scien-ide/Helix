@@ -21,7 +21,7 @@ class FASTATest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->extractor = new FASTA('tests/test.fa');
+        $this->extractor = new FASTA('tests/test.fasta');
     }
 
     /**

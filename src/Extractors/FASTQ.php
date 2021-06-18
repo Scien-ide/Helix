@@ -17,29 +17,22 @@ use function fgets;
 use function fclose;
 
 /**
- * FASTA
+ * FASTQ
  *
- * A memory-efficient FASTA dataset extractor.
+ * A memory-efficient FASTQ dataset extractor.
  *
  * @category    Bioinformatics
  * @package     andrewdalpino/DNAHash
  * @author      Andrew DalPino
  */
-class FASTA implements Extractor
+class FASTQ implements Extractor
 {
     /**
-     * The character that represents the start of the header of a new read.
+     * The character that represents the start of a new read.
      *
      * @var string
      */
-    private const HEADER_DELIMITER = '>';
-
-    /**
-     * The character that represents the start of a comment.
-     *
-     * @var string
-     */
-    private const COMMENT_DELIMITER = ';';
+    private const HEADER_DELIMITER = '@';
 
     /**
      * The path to the file on disk.
@@ -89,7 +82,8 @@ class FASTA implements Extractor
 
         rewind($handle);
 
-        $header = $sequence = '';
+        $readNextLine = false;
+        $header = '';
 
         while (!feof($handle)) {
             $data = trim(fgets($handle) ?: '');
@@ -98,28 +92,19 @@ class FASTA implements Extractor
                 continue;
             }
 
-            switch ($data[0]) {
-                case self::HEADER_DELIMITER:
-                    if (!empty($sequence)) {
-                        yield $header => $sequence;
-                    }
+            if ($readNextLine) {
+                yield $header => $data;
 
-                    $header = substr($data, 1);
+                $readNextLine = false;
 
-                    $sequence = '';
-
-                    break;
-
-                case self::COMMENT_DELIMITER:
-                    break;
-
-                default:
-                    $sequence .= $data;
+                continue;
             }
-        }
 
-        if (!empty($sequence)) {
-            yield $header => $sequence;
+            if ($data[0] === self::HEADER_DELIMITER) {
+                $header = substr($data, 1);
+
+                $readNextLine = true;
+            }
         }
 
         fclose($handle);
