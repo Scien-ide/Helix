@@ -166,7 +166,7 @@ class DNAHash implements ArrayAccess, Countable
     public function __construct(
         float $maxFalsePositiveRate = 0.01,
         ?int $numHashes = 4,
-        int $layerSize = 64000000
+        int $layerSize = 32000000
     ) {
         $this->filter = new BloomFilter($maxFalsePositiveRate, $numHashes, $layerSize);
     }
