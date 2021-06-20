@@ -22,10 +22,10 @@ use function fclose;
  * A memory-efficient FASTA dataset extractor.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
-class FASTA implements Extractor
+class FASTA implements Extractor, Writable
 {
     /**
      * The character that represents the start of the header of a new read.
@@ -71,6 +71,49 @@ class FASTA implements Extractor
         }
 
         $this->path = $path;
+    }
+
+    /**
+     * Export an iterable data table.
+     *
+     * @param iterable<string> $iterator
+     * @throws \DNATools\Exceptions\RuntimeException
+     */
+    public function export(iterable $iterator) : void
+    {
+        if (is_file($this->path) and !is_writable($this->path)) {
+            throw new RuntimeException("Path {$this->path} is not writable.");
+        }
+
+        if (!is_file($this->path) and !is_writable(dirname($this->path))) {
+            throw new RuntimeException("Path {$this->path} is not writable.");
+        }
+
+        $handle = fopen($this->path, 'w');
+
+        if (!$handle) {
+            throw new RuntimeException('Could not open file pointer.');
+        }
+
+        $line = 1;
+
+        foreach ($iterator as $header => $sequence) {
+            $length = fputs($handle, self::HEADER_DELIMITER . $header . PHP_EOL);
+
+            if ($length === false) {
+                throw new RuntimeException("Could not write header on line $line.");
+            }
+
+            $length = fputs($handle, $sequence . PHP_EOL);
+
+            if ($length === false) {
+                throw new RuntimeException("Could not write sequence on line $line.");
+            }
+
+            ++$line;
+        }
+
+        fclose($handle);
     }
 
     /**

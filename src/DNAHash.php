@@ -32,7 +32,7 @@ use function max;
  * [3] S. Deorowicz et al. (2015). KMC 2: fast and resource-frugal k-mer counting.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  *
  * @implements ArrayAccess<string, int>
@@ -188,7 +188,7 @@ class DNAHash implements ArrayAccess, Countable
     }
 
     /**
-     * Return the number of hits for each search sequence.
+     * Return the number of hits for a reference genome.
      *
      * @param iterable<string> $iterator
      * @return int[]
@@ -198,14 +198,12 @@ class DNAHash implements ArrayAccess, Countable
         $hits = [];
 
         foreach ($iterator as $sequence) {
-            if (isset($hits[$sequence])) {
-                continue;
-            }
-
-            try {
-                $hits[$sequence] = $this->offsetGet($sequence);
-            } catch (Exception $exception) {
-                $hits[$sequence] = 0;
+            if (!isset($hits[$sequence])) {
+                try {
+                    $hits[$sequence] = $this->offsetGet($sequence);
+                } catch (Exception $exception) {
+                    $hits[$sequence] = 0;
+                }
             }
         }
 
@@ -275,9 +273,19 @@ class DNAHash implements ArrayAccess, Countable
      *
      * @return int
      */
-    public function totalSequences() : int
+    public function numSequences() : int
     {
-        return $this->numNonSingletons + $this->numSingletons;
+        return $this->numNonSingletons() + $this->numSingletons();
+    }
+
+    /**
+     * Return the number of unique sequences stored in the hash table.
+     *
+     * @return int
+     */
+    public function numUniqueSequences() : int
+    {
+        return count($this->counts) + $this->numSingletons();
     }
 
     /**
@@ -352,7 +360,7 @@ class DNAHash implements ArrayAccess, Countable
                 . " must be greater than 2, $bins given.");
         }
 
-        if ($this->totalSequences() === 0) {
+        if ($this->numSequences() === 0) {
             throw new RuntimeException('At least one element'
                 . ' is needed to generate a histogram.');
         }
@@ -464,12 +472,12 @@ class DNAHash implements ArrayAccess, Countable
     }
 
     /**
-     * Return the number of unique sequences stored in the hash table.
+     * Return the number of sequences stored in the hash table.
      *
      * @return int
      */
     public function count() : int
     {
-        return count($this->counts) + $this->numSingletons;
+        return $this->numSequences();
     }
 }

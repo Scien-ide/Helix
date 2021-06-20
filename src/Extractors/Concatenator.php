@@ -10,7 +10,7 @@ use Generator;
  * Concatenates the output of multiple extractors.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
 class Concatenator implements Extractor

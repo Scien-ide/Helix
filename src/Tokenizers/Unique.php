@@ -11,7 +11,7 @@ use Generator;
  * Removes duplicate sequences from a dataset while in flight.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
 class Unique implements Tokenizer

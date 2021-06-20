@@ -9,7 +9,7 @@ use Generator;
  * Canonical
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
 class Canonical implements Tokenizer

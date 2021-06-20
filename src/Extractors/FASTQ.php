@@ -22,7 +22,7 @@ use function fclose;
  * A memory-efficient FASTQ dataset extractor.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
 class FASTQ implements Extractor

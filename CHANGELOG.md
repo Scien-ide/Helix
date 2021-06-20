@@ -1,3 +1,5 @@
 - 1.0.0-beta1
     - Add FASTQ dataset extractor
     - FASTA extractor now handles comments
+    - Add `search` reference genome method
+    - FASTA extractor is now Writable

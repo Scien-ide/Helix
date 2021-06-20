@@ -14,7 +14,7 @@ use Generator;
  *     K-mers that contain invalid bases will not be generated.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNATools
+ * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
 class Kmer implements Tokenizer

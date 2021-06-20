@@ -66,6 +66,26 @@ class DNAHashTest extends TestCase
     /**
      * @test
      */
+    public function search() : void
+    {
+        $reference = ['TGCCG', 'ATTAC', 'ACGAC', 'GCTAG', 'ACGAG'];
+
+        $expected = [
+            'TGCCG' => 0,
+            'ATTAC' => 16,
+            'ACGAC' => 19,
+            'GCTAG' => 0,
+            'ACGAG' => 19,
+        ];
+
+        $hits = $this->hashTable->search($reference);
+
+        $this->assertEquals($expected, $hits);
+    }
+
+    /**
+     * @test
+     */
     public function max() : void
     {
         $this->assertEquals(34, $this->hashTable->max());
@@ -90,9 +110,25 @@ class DNAHashTest extends TestCase
     /**
      * @test
      */
-    public function totalSequences() : void
+    public function numNonSingletons() : void
     {
-        $this->assertEquals(self::NUM_SEQUENCES, $this->hashTable->totalSequences());
+        $this->assertEquals(10000, $this->hashTable->numNonSingletons());
+    }
+
+    /**
+     * @test
+     */
+    public function numSequences() : void
+    {
+        $this->assertEquals(self::NUM_SEQUENCES, $this->hashTable->numSequences());
+    }
+
+    /**
+     * @test
+     */
+    public function numUniqueSequences() : void
+    {
+        $this->assertEquals(512, $this->hashTable->numUniqueSequences());
     }
 
     /**
@@ -158,6 +194,6 @@ class DNAHashTest extends TestCase
      */
     public function countable() : void
     {
-        $this->assertEquals(512, count($this->hashTable));
+        $this->assertEquals(self::NUM_SEQUENCES, count($this->hashTable));
     }
 }
