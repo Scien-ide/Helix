@@ -1,15 +1,15 @@
 <?php
 
-namespace DNAHash\Tests;
+namespace DNAToolkit\Tests;
 
-use DNAHash\DNAHash;
-use DNAHash\Tokenizers\Canonical;
-use DNAHash\Tokenizers\Kmer;
+use DNAToolkit\DNAHash;
+use DNAToolkit\Tokenizers\Canonical;
+use DNAToolkit\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Base
- * @covers \DNAHash\DNAHash
+ * @covers \DNAToolkit\DNAHash
  */
 class DNAHashTest extends TestCase
 {
@@ -22,7 +22,7 @@ class DNAHashTest extends TestCase
     private const RANDOM_SEED = 0;
 
     /**
-     * @var \DNAHash\DNAHash
+     * @var \DNAToolkit\DNAHash
      */
     protected $hashTable;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash\Exceptions;
+namespace DNAToolkit\Exceptions;
 
 class SequenceTooLong extends InvalidArgumentException
 {

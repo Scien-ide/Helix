@@ -1,9 +1,9 @@
 <?php
 
-namespace DNAHash\Extractors;
+namespace DNAToolkit\Extractors;
 
-use DNAHash\Exceptions\InvalidArgumentException;
-use DNAHash\Exceptions\RuntimeException;
+use DNAToolkit\Exceptions\InvalidArgumentException;
+use DNAToolkit\Exceptions\RuntimeException;
 use Generator;
 
 use function is_dir;
@@ -21,7 +21,7 @@ use function fclose;
  * Plain sequence format where sequences are delimitated by a newline character.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNAHash
+ * @package     andrewdalpino/DNAToolkit
  * @author      Andrew DalPino
  */
 class Plain implements Extractor
@@ -35,7 +35,7 @@ class Plain implements Extractor
 
     /**
      * @param string $path
-     * @throws \DNAHash\Exceptions\InvalidArgumentException
+     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
      */
     public function __construct(string $path)
     {
@@ -61,7 +61,7 @@ class Plain implements Extractor
     /**
      * Return an iterator for the sequences in a dataset.
      *
-     * @throws \DNAHash\Exceptions\RuntimeException
+     * @throws \DNAToolkit\Exceptions\RuntimeException
      * @return \Generator<string>
      */
     public function getIterator() : Generator

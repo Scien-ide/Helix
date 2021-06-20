@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash
+namespace DNAToolkit
 {
     use function array_search;
     use function max;

@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash\Exceptions;
+namespace DNAToolkit\Exceptions;
 
 class InvalidBase extends InvalidArgumentException
 {

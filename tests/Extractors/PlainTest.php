@@ -1,18 +1,18 @@
 <?php
 
-namespace DNAHash\Tests\Extractors;
+namespace DNAToolkit\Tests\Extractors;
 
-use DNAHash\Extractors\Plain;
+use DNAToolkit\Extractors\Plain;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Extractors
- * @covers \DNAHash\Extractors\Plain
+ * @covers \DNAToolkit\Extractors\Plain
  */
 class PlainTest extends TestCase
 {
     /**
-     * @var \DNAHash\Extractors\Plain
+     * @var \DNAToolkit\Extractors\Plain
      */
     protected $extractor;
 

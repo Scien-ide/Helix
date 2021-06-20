@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAHash\Extractors;
+namespace DNAToolkit\Extractors;
 
 use IteratorAggregate;
 

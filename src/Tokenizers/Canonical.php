@@ -1,15 +1,15 @@
 <?php
 
-namespace DNAHash\Tokenizers;
+namespace DNAToolkit\Tokenizers;
 
-use DNAHash\Exceptions\InvalidBase;
+use DNAToolkit\Exceptions\InvalidBase;
 use Generator;
 
 /**
  * Canonical
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNAHash
+ * @package     andrewdalpino/DNAToolkit
  * @author      Andrew DalPino
  */
 class Canonical implements Tokenizer
