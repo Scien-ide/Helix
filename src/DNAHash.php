@@ -47,7 +47,7 @@ class DNAHash implements ArrayAccess, Countable
     protected const MAX_SEQUENCE_LENGTH = (4 * PHP_INT_SIZE) - 1;
 
     /**
-     * A single bit added to every 2bit sequence.
+     * A single bit added to the start of every 2bit encoding.
      *
      * @var int
      */
@@ -132,7 +132,9 @@ class DNAHash implements ArrayAccess, Countable
                 throw new InvalidBase($base, self::BASE_DECODE_MAP);
             }
 
-            $hash = ($hash << 2) + self::BASE_ENCODE_MAP[$base];
+            $hash <<= 2;
+
+            $hash += self::BASE_ENCODE_MAP[$base];
         }
 
         return $hash;
@@ -468,7 +470,7 @@ class DNAHash implements ArrayAccess, Countable
      */
     public function offsetUnset($sequence) : void
     {
-        throw new RuntimeException('Unset not supported.');
+        throw new RuntimeException('Unset is not supported.');
     }
 
     /**
