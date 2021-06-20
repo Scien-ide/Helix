@@ -1,4 +1,4 @@
-# DNA Toolkit
+# DNA Tools
 A PHP hash table optimized for counting short gene sequences for use in Bioinformatics. DNA Hash stores sequence counts by their up2bit encoding - a two-way hash that exploits the fact that each DNA base need only 2 bits to be fully encoded. Accordingly, DNA Hash uses less memory than a lookup table that stores raw gene sequences. In addition, DNA Hash's layered Bloom filter eliminates the need to explicitly store counts for sequences that have only been seen once.
 
 - **Ultra-low** memory footprint
@@ -14,7 +14,7 @@ A PHP hash table optimized for counting short gene sequences for use in Bioinfor
 Install into your project using [Composer](https://getcomposer.org/):
 
 ```sh
-$ composer require scienide/DNAToolkit
+$ composer require scienide/dnatools
 ```
 
 ### Requirements
@@ -23,14 +23,14 @@ $ composer require scienide/DNAToolkit
 ## Example Usage
 
 ```php
-use DNAToolkit\DNAToolkit;
-use DNAToolkit\Extractors\FASTA;
-use DNAToolkit\Tokenizers\Canonical;
-use DNAToolkit\Tokenizers\Kmer;
+use DNATools\DNATools;
+use DNATools\Extractors\FASTA;
+use DNATools\Tokenizers\Canonical;
+use DNATools\Tokenizers\Kmer;
 
 $extractor = new FASTA('example.fa');
 
-$hashTable = new DNAToolkit(0.001);
+$hashTable = new DNATools(0.001);
 
 $hashTable->import(new Canonical(new Kmer(25, $extractor)));
 
@@ -86,4 +86,4 @@ $ composer benchmark
 ## References
 - [1] https://github.com/JohnLonginotto/ACGTrie/blob/master/docs/UP2BIT.md.
 - [2] P. Melsted et al. (2011). Efficient counting of k-mers in DNA sequences using a bloom filter.
-- [3] S. Deorowicz1 et al. (2015). KMC 2: fast and resource-frugal k-mer counting.
+- [3] S. Deorowicz et al. (2015). KMC 2: fast and resource-frugal k-mer counting.

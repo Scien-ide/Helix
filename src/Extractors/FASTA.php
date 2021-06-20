@@ -1,9 +1,9 @@
 <?php
 
-namespace DNAToolkit\Extractors;
+namespace DNATools\Extractors;
 
-use DNAToolkit\Exceptions\InvalidArgumentException;
-use DNAToolkit\Exceptions\RuntimeException;
+use DNATools\Exceptions\InvalidArgumentException;
+use DNATools\Exceptions\RuntimeException;
 use Generator;
 
 use function is_dir;
@@ -22,7 +22,7 @@ use function fclose;
  * A memory-efficient FASTA dataset extractor.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNAToolkit
+ * @package     andrewdalpino/DNATools
  * @author      Andrew DalPino
  */
 class FASTA implements Extractor
@@ -50,7 +50,7 @@ class FASTA implements Extractor
 
     /**
      * @param string $path
-     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
+     * @throws \DNATools\Exceptions\InvalidArgumentException
      */
     public function __construct(string $path)
     {
@@ -76,7 +76,7 @@ class FASTA implements Extractor
     /**
      * Return an iterator for the sequences in a dataset.
      *
-     * @throws \DNAToolkit\Exceptions\RuntimeException
+     * @throws \DNATools\Exceptions\RuntimeException
      * @return \Generator<string>
      */
     public function getIterator() : Generator

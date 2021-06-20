@@ -1,27 +1,27 @@
 <?php
 
-namespace DNAToolkit\Tests\Extractors;
+namespace DNATools\Tests\Tokenizers;
 
-use DNAToolkit\Tokenizers\Kmer;
+use DNATools\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Extractors
- * @covers \DNAToolkit\Tokenizers\Kmer
+ * @group Tokenizers
+ * @covers \DNATools\Tokenizers\Kmer
  */
 class KmerTest extends TestCase
 {
     /**
-     * @var \DNAToolkit\Tokenizers\Kmer
+     * @var \DNATools\Tokenizers\Kmer
      */
-    protected $extractor;
+    protected $tokenizer;
 
     /**
      * @before
      */
     protected function setUp() : void
     {
-        $this->extractor = new Kmer(6, ['CGGTTCAGCANG']);
+        $this->tokenizer = new Kmer(6, ['CGGTTCAGCANG']);
     }
 
     /**
@@ -31,6 +31,6 @@ class KmerTest extends TestCase
     {
         $expected = ['CGGTTC', 'GGTTCA', 'GTTCAG', 'TTCAGC', 'TCAGCA'];
 
-        $this->assertEquals($expected, iterator_to_array($this->extractor));
+        $this->assertEquals($expected, iterator_to_array($this->tokenizer));
     }
 }

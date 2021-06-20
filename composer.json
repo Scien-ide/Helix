@@ -1,5 +1,5 @@
 {
-    "name": "scienide/dnatoolkit",
+    "name": "scienide/dnatools",
     "type": "library",
     "description": "A PHP hash table optimized for counting short gene sequences called k-mers for use in Bioinformatics.",
     "license": "MIT",
@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DNAToolkit\\": "src/"
+            "DNATools\\": "src/"
         },
         "files": [
             "src/functions.php"
@@ -35,8 +35,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "DNAToolkit\\Benchmarks\\": "benchmarks/",
-            "DNAToolkit\\Tests\\": "tests/"
+            "DNATools\\Benchmarks\\": "benchmarks/",
+            "DNATools\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -66,9 +66,9 @@
         }
     ],
     "support": {
-        "docs": "https://github.com/Scien-ide/DNAToolkit/README.md",
-        "issues": "https://github.com/Scien-ide/DNAToolkit/issues",
-        "source": "https://github.com/Scien-ide/DNAToolkit",
+        "docs": "https://github.com/Scien-ide/DNATools/README.md",
+        "issues": "https://github.com/Scien-ide/DNATools/issues",
+        "source": "https://github.com/Scien-ide/DNATools",
         "email": "support@andrewdalpino.com"
     },
     "minimum-stability": "dev",

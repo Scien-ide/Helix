@@ -1,8 +1,8 @@
 <?php
 
-namespace DNAToolkit\Tokenizers;
+namespace DNATools\Tokenizers;
 
-use DNAToolkit\Exceptions\InvalidArgumentException;
+use DNATools\Exceptions\InvalidArgumentException;
 use Generator;
 
 /**
@@ -14,7 +14,7 @@ use Generator;
  *     K-mers that contain invalid bases will not be generated.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNAToolkit
+ * @package     andrewdalpino/DNATools
  * @author      Andrew DalPino
  */
 class Kmer implements Tokenizer
@@ -43,7 +43,7 @@ class Kmer implements Tokenizer
     /**
      * @param int $k
      * @param iterable<string> $iterator
-     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
+     * @throws \DNATools\Exceptions\InvalidArgumentException
      */
     public function __construct(int $k, iterable $iterator)
     {

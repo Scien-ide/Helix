@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAToolkit\Extractors;
+namespace DNATools\Extractors;
 
 use Generator;
 
@@ -10,7 +10,7 @@ use Generator;
  * Concatenates the output of multiple extractors.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNAToolkit
+ * @package     andrewdalpino/DNATools
  * @author      Andrew DalPino
  */
 class Concatenator implements Extractor

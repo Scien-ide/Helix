@@ -1,18 +1,18 @@
 <?php
 
-namespace DNAToolkit\Tests\Extractors;
+namespace DNATools\Tests\Extractors;
 
-use DNAToolkit\Extractors\FASTQ;
+use DNATools\Extractors\FASTQ;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Extractors
- * @covers \DNAToolkit\Extractors\FASTQ
+ * @covers \DNATools\Extractors\FASTQ
  */
 class FASTQTest extends TestCase
 {
     /**
-     * @var \DNAToolkit\Extractors\FASTQ
+     * @var \DNATools\Extractors\FASTQ
      */
     protected $extractor;
 

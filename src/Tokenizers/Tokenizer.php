@@ -1,6 +1,6 @@
 <?php
 
-namespace DNAToolkit\Tokenizers;
+namespace DNATools\Tokenizers;
 
 use IteratorAggregate;
 

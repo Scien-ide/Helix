@@ -1,14 +1,15 @@
 <?php
 
-namespace DNAToolkit;
+namespace DNATools;
 
 use OkBloomer\BloomFilter;
-use DNAToolkit\Exceptions\InvalidArgumentException;
-use DNAToolkit\Exceptions\RuntimeException;
-use DNAToolkit\Exceptions\SequenceTooLong;
-use DNAToolkit\Exceptions\InvalidBase;
+use DNATools\Exceptions\InvalidArgumentException;
+use DNATools\Exceptions\RuntimeException;
+use DNATools\Exceptions\SequenceTooLong;
+use DNATools\Exceptions\InvalidBase;
 use ArrayAccess;
 use Countable;
+use Exception;
 
 use function count;
 use function is_int;
@@ -28,10 +29,10 @@ use function max;
  * References:
  * [1] https://github.com/JohnLonginotto/ACGTrie/blob/master/docs/UP2BIT.md
  * [2] P. Melsted et al. (2011). Efficient counting of k-mers in DNA sequences using a bloom filter.
- * [3] S. Deorowicz1 et al. (2015). KMC 2: fast and resource-frugal k-mer counting.
+ * [3] S. Deorowicz et al. (2015). KMC 2: fast and resource-frugal k-mer counting.
  *
  * @category    Bioinformatics
- * @package     andrewdalpino/DNAToolkit
+ * @package     andrewdalpino/DNATools
  * @author      Andrew DalPino
  *
  * @implements ArrayAccess<string, int>
@@ -110,8 +111,8 @@ class DNAHash implements ArrayAccess, Countable
      * Encode a sequence as an integer using the up2bit format.
      *
      * @param string $sequence
-     * @throws \DNAToolkit\Exceptions\SequenceTooLong
-     * @throws \DNAToolkit\Exceptions\InvalidBase
+     * @throws \DNATools\Exceptions\SequenceTooLong
+     * @throws \DNATools\Exceptions\InvalidBase
      * @return int
      */
     protected static function encode(string $sequence) : int
@@ -184,6 +185,31 @@ class DNAHash implements ArrayAccess, Countable
         }
 
         return $this;
+    }
+
+    /**
+     * Return the number of hits for each search sequence.
+     *
+     * @param iterable<string> $iterator
+     * @return int[]
+     */
+    public function search(iterable $iterator) : array
+    {
+        $hits = [];
+
+        foreach ($iterator as $sequence) {
+            if (isset($hits[$sequence])) {
+                continue;
+            }
+
+            try {
+                $hits[$sequence] = $this->offsetGet($sequence);
+            } catch (Exception $exception) {
+                $hits[$sequence] = 0;
+            }
+        }
+
+        return $hits;
     }
 
     /**
@@ -286,7 +312,7 @@ class DNAHash implements ArrayAccess, Countable
      * Return the k sequences with the highest counts.
      *
      * @param int $k
-     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
+     * @throws \DNATools\Exceptions\InvalidArgumentException
      * @return int[]
      */
     public function top(int $k = 10) : array
@@ -315,8 +341,8 @@ class DNAHash implements ArrayAccess, Countable
      * Return a histogram of sequences bucketed by their counts.
      *
      * @param int $bins
-     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
-     * @throws \DNAToolkit\Exceptions\RuntimeException
+     * @throws \DNATools\Exceptions\InvalidArgumentException
+     * @throws \DNATools\Exceptions\RuntimeException
      * @return int[]
      */
     public function histogram(int $bins = 10) : array
@@ -367,7 +393,7 @@ class DNAHash implements ArrayAccess, Countable
      *
      * @param string $sequence
      * @param int $count
-     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
+     * @throws \DNATools\Exceptions\InvalidArgumentException
      */
     public function offsetSet($sequence, $count) : void
     {
@@ -410,7 +436,7 @@ class DNAHash implements ArrayAccess, Countable
      * Return the count for a given sequence.
      *
      * @param string $sequence
-     * @throws \DNAToolkit\Exceptions\InvalidArgumentException
+     * @throws \DNATools\Exceptions\InvalidArgumentException
      * @return int
      */
     public function offsetGet($sequence) : int
@@ -430,7 +456,7 @@ class DNAHash implements ArrayAccess, Countable
 
     /**
      * @param string $sequence
-     * @throws \DNAToolkit\Exceptions\RuntimeException
+     * @throws \DNATools\Exceptions\RuntimeException
      */
     public function offsetUnset($sequence) : void
     {

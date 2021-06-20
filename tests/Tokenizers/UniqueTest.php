@@ -2,18 +2,18 @@
 
 namespace DNATools\Tests\Tokenizers;
 
-use DNATools\Tokenizers\Canonical;
 use DNATools\Tokenizers\Kmer;
+use DNATools\Tokenizers\Unique;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Tokenizers
- * @covers \DNATools\Tokenizers\Canonical
+ * @covers \Rubix\ML\Tokenizers\Unique
  */
-class CanonicalTest extends TestCase
+class UniqueTest extends TestCase
 {
     /**
-     * @var \DNATools\Tokenizers\Canonical
+     * @var \DNATools\Tokenizers\Unique
      */
     protected $tokenizer;
 
@@ -22,9 +22,7 @@ class CanonicalTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->tokenizer = new Canonical(new Kmer(6, [
-            'CGGTTCAGCANG',
-        ]));
+        $this->tokenizer = new Unique(new Kmer(3, ['AAAAAAATCGCTCGC']));
     }
 
     /**
@@ -32,7 +30,7 @@ class CanonicalTest extends TestCase
      */
     public function tokenize() : void
     {
-        $expected = ['CGGTTC', 'GGTTCA', 'CTGAAC', 'GCTGAA', 'TCAGCA'];
+        $expected = ['AAA', 'AAT', 'ATC', 'TCG', 'CGC', 'GCT', 'CTC'];
 
         $this->assertEquals($expected, iterator_to_array($this->tokenizer));
     }

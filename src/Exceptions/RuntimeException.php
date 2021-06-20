@@ -1,10 +1,10 @@
 <?php
 
-namespace DNAToolkit\Exceptions;
+namespace DNATools\Exceptions;
 
  use RuntimeException as SplRuntimeException;
 
-class RuntimeException extends SplRuntimeException implements DNAToolkitException
+class RuntimeException extends SplRuntimeException implements DNAToolsException
 {
     //
 }
