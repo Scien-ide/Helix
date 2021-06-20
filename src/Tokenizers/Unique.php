@@ -47,7 +47,7 @@ class Unique implements Tokenizer
         iterable $iterator,
         float $maxFalsePositiveRate = 0.01,
         ?int $numHashes = 4,
-        int $layerSize = 32000000
+        int $layerSize = 8000000
     ) {
         $this->iterator = $iterator;
         $this->filter = new BloomFilter($maxFalsePositiveRate, $numHashes, $layerSize);

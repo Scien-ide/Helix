@@ -5,7 +5,8 @@
     "license": "MIT",
     "readme": "README.md",
     "keywords": [
-        "gene sequences", "k-mer counting", "k-mer", "bloom filter", "bioinformatics", "fasta"
+        "gene sequences", "k-mer counting", "k-mer", "bloom filter", "bioinformatics", "fasta",
+        "fastq", "illumina", "metagenomics", "computational genomics"
     ],
     "authors": [
         {

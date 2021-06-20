@@ -27,7 +27,7 @@ class FASTATest extends TestCase
     /**
      * @test
      */
-    public function extract() : void
+    public function extractExport() : void
     {
         $expected = [
             'ERZ1283763.1 NODE_7133_length_2790_cov_4.508074' => 'TGAGCATTCCCGATATGGTTCTCATTCATGCAGGCACTAATGATATGTTGCAAAACTATTCCGTCAATCATGCTGTAGATCATATTCGAGAAACGATTGATGTGCTACGCCAAAGAAATCCAAATACAGATTGGCAATTACATGAATTTCGCAGGTATCTCAAAAAAAATGGATACCCAAATCATGCAAATACGTTAATGGATTTATGGAAAAATCCATATCAATCAAACGCAAAAGAAA',
@@ -38,5 +38,9 @@ class FASTATest extends TestCase
         $reads = iterator_to_array($this->extractor);
 
         $this->assertEquals($expected, $reads);
+
+        $this->extractor->export($reads);
+
+        $this->assertFileExists('tests/test.fasta');
     }
 }
