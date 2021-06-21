@@ -6,25 +6,25 @@ use DNATools\Exceptions\InvalidArgumentException;
 use Generator;
 
 /**
- * K-mer
+ * Fragment
  *
- * Generates tokens of length k from DNA sequences containing the bases [A, C, T, G].
+ * Generates a non-overlapping fragment of length n from a sequence.
  *
  * !!! note
- *     K-mers that contain invalid bases will not be generated.
+ *     Fragments that contain invalid bases will not be generated.
  *
  * @category    Bioinformatics
  * @package     Scienide/DNATools
  * @author      Andrew DalPino
  */
-class Kmer implements Tokenizer
+class Fragment implements Tokenizer
 {
     /**
      * The length of tokenized sequences.
      *
      * @var int
      */
-    protected int $k;
+    protected int $n;
 
     /**
      * The base iterator.
@@ -34,25 +34,25 @@ class Kmer implements Tokenizer
     protected iterable $iterator;
 
     /**
-     * The number of k-mers that were dropped due to invalid bases.
+     * The number of fragments that were dropped due to invalid bases.
      *
      * @var int
      */
     protected int $dropped = 0;
 
     /**
-     * @param int $k
+     * @param int $n
      * @param iterable<string> $iterator
      * @throws \DNATools\Exceptions\InvalidArgumentException
      */
-    public function __construct(int $k, iterable $iterator)
+    public function __construct(int $n, iterable $iterator)
     {
-        if ($k < 1) {
-            throw new InvalidArgumentException('K must be'
-                . " greater than 1, $k given.");
+        if ($n < 1) {
+            throw new InvalidArgumentException('N must be'
+                . " greater than 1, $n given.");
         }
 
-        $this->k = $k;
+        $this->n = $n;
         $this->iterator = $iterator;
     }
 
@@ -74,22 +74,14 @@ class Kmer implements Tokenizer
     public function getIterator() : Generator
     {
         foreach ($this->iterator as $sequence) {
-            $p = strlen($sequence) - $this->k;
+            $p = strlen($sequence) - $this->n;
 
-            for ($i = 0; $i <= $p; ++$i) {
-                $kmer = substr($sequence, $i, $this->k);
+            for ($i = 0; $i <= $p; $i += $this->n) {
+                $fragment = substr($sequence, $i, $this->n);
 
-                if (preg_match('/[^ACTG]/', $kmer, $matches, PREG_OFFSET_CAPTURE)) {
-                    $skip = 1 + (int) $matches[0][1];
-
-                    $i += $skip;
-
-                    $this->dropped += $skip;
-
-                    continue;
+                if (!preg_match('/[^ACTG]/', $fragment)) {
+                    yield $fragment;
                 }
-
-                yield $kmer;
             }
         }
     }

@@ -3,3 +3,4 @@
     - FASTA extractor now handles comments
     - Add `search` reference genome method
     - FASTA extractor is now Writable
+    - Add Fragment sequence tokenizer
