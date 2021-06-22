@@ -116,7 +116,9 @@ class DNAHashTest extends TestCase
             'ACTGC' => 19,
         ];
 
-        $this->assertEquals($expected, $this->hashTable->top(3));
+        $top3 = $this->hashTable->top(3);
+
+        $this->assertEquals($expected, iterator_to_array($top3));
     }
 
     /**

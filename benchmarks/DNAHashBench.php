@@ -3,7 +3,6 @@
 namespace DNATools\Benchmarks;
 
 use DNATools\DNAHash;
-use DNATools\Tokenizers\Kmer;
 
 /**
  * @BeforeMethods({"setUp"})
@@ -14,9 +13,9 @@ class DNAToolsBench
         'A', 'C', 'G', 'T',
     ];
 
-    private const NUM_READS = 1000;
+    private const NUM_READS = 1000000;
 
-    private const READ_LENGTH = 700;
+    private const SEQUENCE_LENGTH = 25;
 
     /**
      * @var list<string>
@@ -50,7 +49,7 @@ class DNAToolsBench
         $sequences = [];
 
         for ($i = 0; $i < self::NUM_READS; ++$i) {
-            $sequences[] = self::generateRead(self::READ_LENGTH);
+            $sequences[] = self::generateRead(self::SEQUENCE_LENGTH);
         }
 
         $this->sequences = $sequences;
@@ -63,8 +62,10 @@ class DNAToolsBench
      * @Iterations(5)
      * @OutputTimeUnit("seconds", precision=3)
      */
-    public function import() : void
+    public function increment() : void
     {
-        $this->hashTable->import($this->sequences, new Kmer(25));
+        foreach ($this->sequences as $sequence) {
+            $this->hashTable->increment($sequence);
+        }
     }
 }

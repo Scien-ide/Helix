@@ -3,19 +3,17 @@
 namespace DNATools;
 
 use OkBloomer\BloomFilter;
-use DNATools\Tokenizers\Tokenizer;
 use DNATools\Exceptions\InvalidArgumentException;
 use DNATools\Exceptions\RuntimeException;
 use DNATools\Exceptions\SequenceTooLong;
 use DNATools\Exceptions\InvalidBase;
 use ArrayAccess;
 use Countable;
-use Exception;
+use Generator;
 
 use function count;
 use function is_int;
 use function arsort;
-use function array_slice;
 use function strlen;
 use function log;
 use function max;
@@ -79,13 +77,6 @@ class DNAHash implements ArrayAccess, Countable
     ];
 
     /**
-     * The tokenizer used to tokenize sequences.
-     *
-     * @var \DNATools\Tokenizers\Tokenizer
-     */
-    protected \DNATools\Tokenizers\Tokenizer $tokenizer;
-
-    /**
      * A Bloom filter containing sequences that have probably been seen at least once.
      *
      * @var \OkBloomer\BloomFilter
@@ -107,13 +98,6 @@ class DNAHash implements ArrayAccess, Countable
      * @var int
      */
     protected int $numSingletons = 0;
-
-    /**
-     * The total number of non-singleton sequences in the hash table.
-     *
-     * @var int
-     */
-    protected int $numNonSingletons = 0;
 
     /**
      * Encode a sequence as an integer using the up2bit format.
@@ -183,54 +167,6 @@ class DNAHash implements ArrayAccess, Countable
     }
 
     /**
-     * Import a sequence dataset into the hash table.
-     *
-     * @param iterable<string> $iterator
-     * @param \DNATools\Tokenizers\Tokenizer $tokenizer
-     * @return self
-     */
-    public function import(iterable $iterator, Tokenizer $tokenizer) : self
-    {
-        foreach ($iterator as $sequence) {
-            $tokens = $tokenizer->tokenize($sequence);
-
-            foreach ($tokens as $token) {
-                $this->increment($token);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Return the number of hits for a reference genome.
-     *
-     * @param iterable<string> $iterator
-     * @param \DNATools\Tokenizers\Tokenizer $tokenizer
-     * @return int[]
-     */
-    public function search(iterable $iterator, Tokenizer $tokenizer) : array
-    {
-        $hits = [];
-
-        foreach ($iterator as $sequence) {
-            $tokens = $tokenizer->tokenize($sequence);
-
-            foreach ($tokens as $token) {
-                if (!isset($hits[$token])) {
-                    try {
-                        $hits[$token] = $this->offsetGet($token);
-                    } catch (Exception $exception) {
-                        $hits[$token] = 0;
-                    }
-                }
-            }
-        }
-
-        return $hits;
-    }
-
-    /**
      * Increment the count for a given sequence by 1.
      *
      * @param string $sequence
@@ -244,14 +180,10 @@ class DNAHash implements ArrayAccess, Countable
 
             if (isset($this->counts[$hash])) {
                 ++$this->counts[$hash];
-
-                ++$this->numNonSingletons;
             } else {
                 --$this->numSingletons;
 
                 $this->counts[$hash] = 2;
-
-                $this->numNonSingletons += 2;
             }
         } else {
             ++$this->numSingletons;
@@ -269,6 +201,16 @@ class DNAHash implements ArrayAccess, Countable
     }
 
     /**
+     * Return the total number of non-singleton sequences in the hash table.
+     *
+     * @return int
+     */
+    public function numNonSingletons() : int
+    {
+        return array_sum($this->counts);
+    }
+
+    /**
      * Return the number of sequences that are only counted once.
      *
      * @return int
@@ -276,16 +218,6 @@ class DNAHash implements ArrayAccess, Countable
     public function numSingletons() : int
     {
         return $this->numSingletons;
-    }
-
-    /**
-     * Return the total number of non-singleton sequences in the hash table.
-     *
-     * @return int
-     */
-    public function numNonSingletons() : int
-    {
-        return $this->numNonSingletons;
     }
 
     /**
@@ -306,6 +238,20 @@ class DNAHash implements ArrayAccess, Countable
     public function numUniqueSequences() : int
     {
         return count($this->counts) + $this->numSingletons();
+    }
+
+    /**
+     * Return the unique sequences in the hash table that are not singletons.
+     *
+     * @return \Generator<string>
+     */
+    public function uniqueNonSingletons() : Generator
+    {
+        $hashes = array_keys($this->counts);
+
+        foreach ($hashes as $hash) {
+            yield self::decode($hash);
+        }
     }
 
     /**
@@ -341,9 +287,9 @@ class DNAHash implements ArrayAccess, Countable
      *
      * @param int $k
      * @throws \DNATools\Exceptions\InvalidArgumentException
-     * @return int[]
+     * @return \Generator<string,int>
      */
-    public function top(int $k = 10) : array
+    public function top(int $k = 10) : Generator
     {
         if ($k < 1) {
             throw new InvalidArgumentException('K must be'
@@ -352,17 +298,19 @@ class DNAHash implements ArrayAccess, Countable
 
         arsort($this->counts);
 
-        $counts = array_slice($this->counts, 0, $k, true);
+        $n = 0;
 
-        $results = [];
-
-        foreach ($counts as $hash => $count) {
+        foreach ($this->counts as $hash => $count) {
             $sequence = self::decode($hash);
 
-            $results[$sequence] = $count;
-        }
+            yield $sequence => $count;
 
-        return $results;
+            ++$n;
+
+            if ($n >= $k) {
+                break;
+            }
+        }
     }
 
     /**
@@ -432,19 +380,15 @@ class DNAHash implements ArrayAccess, Countable
 
         $exists = $this->filter->existsOrInsert($sequence);
 
-        $hash = self::encode($sequence);
-
-        if (isset($this->counts[$hash])) {
-            $this->numNonSingletons -= $this->counts[$hash];
-        } elseif ($exists) {
-            --$this->numSingletons;
-        }
-
         if ($count > 1) {
-            $this->counts[$hash] = $count;
+            $hash = self::encode($sequence);
 
-            $this->numNonSingletons += $count;
-        } else {
+            if ($exists and !isset($this->counts[$hash])) {
+                --$this->numSingletons;
+            }
+
+            $this->counts[$hash] = $count;
+        } elseif (!$exists) {
             ++$this->numSingletons;
         }
     }
