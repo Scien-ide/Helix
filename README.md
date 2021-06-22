@@ -20,7 +20,7 @@ $ composer require scienide/helix
 ### Requirements
 - [PHP](https://php.net/manual/en/install.php) 7.4 or above
 
-## Example Usage
+## Example
 
 ```php
 use Helix\DNAHash;
@@ -61,14 +61,6 @@ Array
     [CAAAATAATTTCAATTTTCTATCTC] => 17
     [AGATAGAAAATTGAAATTATTTTGA] => 17
 )
-```
-
-```php
-echo $hashTable->falsePositiveRate();
-```
-
-```
-0.0003865
 ```
 
 ## Testing
