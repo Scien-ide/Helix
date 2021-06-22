@@ -27,11 +27,11 @@ class Canonical implements Tokenizer
     ];
 
     /**
-     * The base iterator.
+     * The base tokenizer.
      *
-     * @var iterable<string>
+     * @var \DNATools\Tokenizers\Tokenizer
      */
-    protected iterable $iterator;
+    protected \DNATools\Tokenizers\Tokenizer $base;
 
     /**
      * Return the reverse compliment of a sequence.
@@ -41,11 +41,9 @@ class Canonical implements Tokenizer
      */
     protected static function reverseCompliment(string $sequence) : string
     {
-        $k = strlen($sequence);
-
         $reverseCompliment = '';
 
-        for ($i = $k - 1; $i >= 0; --$i) {
+        for ($i = strlen($sequence) - 1; $i >= 0; --$i) {
             $base = $sequence[$i];
 
             if (!isset(self::BASE_COMPLIMENT_MAP[$base])) {
@@ -59,22 +57,25 @@ class Canonical implements Tokenizer
     }
 
     /**
-     * @param iterable<string> $iterator
+     * @param \DNATools\Tokenizers\Tokenizer $base
      */
-    public function __construct(iterable $iterator)
+    public function __construct(Tokenizer $base)
     {
-        $this->iterator = $iterator;
+        $this->base = $base;
     }
 
     /**
-     * Return an iterator for the sequences in a dataset.
+     * Return an iterator for the tokens in a sequence.
      *
+     * @param string $sequence
      * @return \Generator<string>
      */
-    public function getIterator() : Generator
+    public function tokenize(string $sequence) : Generator
     {
-        foreach ($this->iterator as $sequence) {
-            yield min($sequence, self::reverseCompliment($sequence));
+        $tokens = $this->base->tokenize($sequence);
+
+        foreach ($tokens as $token) {
+            yield min($token, self::reverseCompliment($token));
         }
     }
 }

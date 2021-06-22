@@ -27,13 +27,6 @@ class Fragment implements Tokenizer
     protected int $n;
 
     /**
-     * The base iterator.
-     *
-     * @var iterable<string>
-     */
-    protected iterable $iterator;
-
-    /**
      * The number of fragments that were dropped due to invalid bases.
      *
      * @var int
@@ -42,10 +35,9 @@ class Fragment implements Tokenizer
 
     /**
      * @param int $n
-     * @param iterable<string> $iterator
      * @throws \DNATools\Exceptions\InvalidArgumentException
      */
-    public function __construct(int $n, iterable $iterator)
+    public function __construct(int $n)
     {
         if ($n < 1) {
             throw new InvalidArgumentException('N must be'
@@ -53,7 +45,6 @@ class Fragment implements Tokenizer
         }
 
         $this->n = $n;
-        $this->iterator = $iterator;
     }
 
     /**
@@ -67,22 +58,25 @@ class Fragment implements Tokenizer
     }
 
     /**
-     * Return an iterator for the sequences in a dataset.
+     * Return an iterator for the tokens in a sequence.
      *
+     * @param string $sequence
      * @return \Generator<string>
      */
-    public function getIterator() : Generator
+    public function tokenize(string $sequence) : Generator
     {
-        foreach ($this->iterator as $sequence) {
-            $p = strlen($sequence) - $this->n;
+        $p = strlen($sequence) - $this->n;
 
-            for ($i = 0; $i <= $p; $i += $this->n) {
-                $fragment = substr($sequence, $i, $this->n);
+        for ($i = 0; $i <= $p; $i += $this->n) {
+            $token = substr($sequence, $i, $this->n);
 
-                if (!preg_match('/[^ACTG]/', $fragment)) {
-                    yield $fragment;
-                }
+            if (preg_match('/[^ACTG]/', $token)) {
+                ++$this->dropped;
+
+                continue;
             }
+
+            yield $token;
         }
     }
 }

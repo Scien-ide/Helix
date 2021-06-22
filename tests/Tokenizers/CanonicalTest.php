@@ -22,9 +22,7 @@ class CanonicalTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->tokenizer = new Canonical(new Kmer(6, [
-            'CGGTTCAGCANG',
-        ]));
+        $this->tokenizer = new Canonical(new Kmer(6));
     }
 
     /**
@@ -34,6 +32,8 @@ class CanonicalTest extends TestCase
     {
         $expected = ['CGGTTC', 'GGTTCA', 'CTGAAC', 'GCTGAA', 'TCAGCA'];
 
-        $this->assertEquals($expected, iterator_to_array($this->tokenizer));
+        $tokens = $this->tokenizer->tokenize('CGGTTCAGCANG');
+
+        $this->assertEquals($expected, iterator_to_array($tokens));
     }
 }

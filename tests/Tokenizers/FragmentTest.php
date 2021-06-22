@@ -21,7 +21,7 @@ class FragmentTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->tokenizer = new Fragment(4, ['CGGTTCAGCANGTAAT']);
+        $this->tokenizer = new Fragment(4);
     }
 
     /**
@@ -31,6 +31,8 @@ class FragmentTest extends TestCase
     {
         $expected = ['CGGT', 'TCAG', 'TAAT'];
 
-        $this->assertEquals($expected, iterator_to_array($this->tokenizer));
+        $tokens = $this->tokenizer->tokenize('CGGTTCAGCANGTAAT');
+
+        $this->assertEquals($expected, iterator_to_array($tokens));
     }
 }

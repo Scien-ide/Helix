@@ -3,6 +3,7 @@
 namespace DNATools;
 
 use OkBloomer\BloomFilter;
+use DNATools\Tokenizers\Tokenizer;
 use DNATools\Exceptions\InvalidArgumentException;
 use DNATools\Exceptions\RuntimeException;
 use DNATools\Exceptions\SequenceTooLong;
@@ -76,6 +77,13 @@ class DNAHash implements ArrayAccess, Countable
         2 => 'T',
         3 => 'G',
     ];
+
+    /**
+     * The tokenizer used to tokenize sequences.
+     *
+     * @var \DNATools\Tokenizers\Tokenizer
+     */
+    protected \DNATools\Tokenizers\Tokenizer $tokenizer;
 
     /**
      * A Bloom filter containing sequences that have probably been seen at least once.
@@ -178,12 +186,17 @@ class DNAHash implements ArrayAccess, Countable
      * Import a sequence dataset into the hash table.
      *
      * @param iterable<string> $iterator
+     * @param \DNATools\Tokenizers\Tokenizer $tokenizer
      * @return self
      */
-    public function import(iterable $iterator) : self
+    public function import(iterable $iterator, Tokenizer $tokenizer) : self
     {
         foreach ($iterator as $sequence) {
-            $this->increment($sequence);
+            $tokens = $tokenizer->tokenize($sequence);
+
+            foreach ($tokens as $token) {
+                $this->increment($token);
+            }
         }
 
         return $this;
@@ -193,18 +206,23 @@ class DNAHash implements ArrayAccess, Countable
      * Return the number of hits for a reference genome.
      *
      * @param iterable<string> $iterator
+     * @param \DNATools\Tokenizers\Tokenizer $tokenizer
      * @return int[]
      */
-    public function search(iterable $iterator) : array
+    public function search(iterable $iterator, Tokenizer $tokenizer) : array
     {
         $hits = [];
 
         foreach ($iterator as $sequence) {
-            if (!isset($hits[$sequence])) {
-                try {
-                    $hits[$sequence] = $this->offsetGet($sequence);
-                } catch (Exception $exception) {
-                    $hits[$sequence] = 0;
+            $tokens = $tokenizer->tokenize($sequence);
+
+            foreach ($tokens as $token) {
+                if (!isset($hits[$token])) {
+                    try {
+                        $hits[$token] = $this->offsetGet($token);
+                    } catch (Exception $exception) {
+                        $hits[$token] = 0;
+                    }
                 }
             }
         }

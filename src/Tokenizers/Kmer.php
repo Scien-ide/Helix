@@ -27,13 +27,6 @@ class Kmer implements Tokenizer
     protected int $k;
 
     /**
-     * The base iterator.
-     *
-     * @var iterable<string>
-     */
-    protected iterable $iterator;
-
-    /**
      * The number of k-mers that were dropped due to invalid bases.
      *
      * @var int
@@ -42,10 +35,9 @@ class Kmer implements Tokenizer
 
     /**
      * @param int $k
-     * @param iterable<string> $iterator
      * @throws \DNATools\Exceptions\InvalidArgumentException
      */
-    public function __construct(int $k, iterable $iterator)
+    public function __construct(int $k)
     {
         if ($k < 1) {
             throw new InvalidArgumentException('K must be'
@@ -53,7 +45,6 @@ class Kmer implements Tokenizer
         }
 
         $this->k = $k;
-        $this->iterator = $iterator;
     }
 
     /**
@@ -67,30 +58,29 @@ class Kmer implements Tokenizer
     }
 
     /**
-     * Return an iterator for the sequences in a dataset.
+     * Return an iterator for the tokens in a sequence.
      *
+     * @param string $sequence
      * @return \Generator<string>
      */
-    public function getIterator() : Generator
+    public function tokenize(string $sequence) : Generator
     {
-        foreach ($this->iterator as $sequence) {
-            $p = strlen($sequence) - $this->k;
+        $p = strlen($sequence) - $this->k;
 
-            for ($i = 0; $i <= $p; ++$i) {
-                $kmer = substr($sequence, $i, $this->k);
+        for ($i = 0; $i <= $p; ++$i) {
+            $token = substr($sequence, $i, $this->k);
 
-                if (preg_match('/[^ACTG]/', $kmer, $matches, PREG_OFFSET_CAPTURE)) {
-                    $skip = 1 + (int) $matches[0][1];
+            if (preg_match('/[^ACTG]/', $token, $matches, PREG_OFFSET_CAPTURE)) {
+                $skip = 1 + (int) $matches[0][1];
 
-                    $i += $skip;
+                $i += $skip;
 
-                    $this->dropped += $skip;
+                $this->dropped += $skip;
 
-                    continue;
-                }
-
-                yield $kmer;
+                continue;
             }
+
+            yield $token;
         }
     }
 }

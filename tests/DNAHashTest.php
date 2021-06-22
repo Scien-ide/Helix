@@ -3,8 +3,6 @@
 namespace DNATools\Tests;
 
 use DNATools\DNAHash;
-use DNATools\Tokenizers\Canonical;
-use DNATools\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -48,55 +46,15 @@ class DNAHashTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->hashTable = new DNAHash(0.001);
+        $hashTable = new DNAHash(0.001);
 
         srand(self::RANDOM_SEED);
 
-        $iterator = function () {
-            for ($i = 0; $i < self::NUM_SEQUENCES; ++$i) {
-                yield self::generateRead(5);
-            }
-        };
+        for ($i = 0; $i < self::NUM_SEQUENCES; ++$i) {
+            $hashTable->increment(self::generateRead(5));
+        }
 
-        $extractor = new Canonical(new Kmer(5, $iterator()));
-
-        $this->hashTable->import($extractor);
-    }
-
-    /**
-     * @test
-     */
-    public function search() : void
-    {
-        $reference = ['TGCCG', 'ATTAC', 'ACGAC', 'GCTAG', 'ACGAG'];
-
-        $expected = [
-            'TGCCG' => 0,
-            'ATTAC' => 16,
-            'ACGAC' => 19,
-            'GCTAG' => 0,
-            'ACGAG' => 19,
-        ];
-
-        $hits = $this->hashTable->search($reference);
-
-        $this->assertEquals($expected, $hits);
-    }
-
-    /**
-     * @test
-     */
-    public function max() : void
-    {
-        $this->assertEquals(34, $this->hashTable->max());
-    }
-
-    /**
-     * @test
-     */
-    public function argmax() : void
-    {
-        $this->assertEquals('AACAT', $this->hashTable->argmax());
+        $this->hashTable = $hashTable;
     }
 
     /**
@@ -104,7 +62,7 @@ class DNAHashTest extends TestCase
      */
     public function numSingletons() : void
     {
-        $this->assertEquals(0, $this->hashTable->numSingletons());
+        $this->assertEquals(1, $this->hashTable->numSingletons());
     }
 
     /**
@@ -112,7 +70,7 @@ class DNAHashTest extends TestCase
      */
     public function numNonSingletons() : void
     {
-        $this->assertEquals(10000, $this->hashTable->numNonSingletons());
+        $this->assertEquals(9999, $this->hashTable->numNonSingletons());
     }
 
     /**
@@ -128,7 +86,23 @@ class DNAHashTest extends TestCase
      */
     public function numUniqueSequences() : void
     {
-        $this->assertEquals(512, $this->hashTable->numUniqueSequences());
+        $this->assertEquals(1024, $this->hashTable->numUniqueSequences());
+    }
+
+    /**
+     * @test
+     */
+    public function max() : void
+    {
+        $this->assertEquals(21, $this->hashTable->max());
+    }
+
+    /**
+     * @test
+     */
+    public function argmax() : void
+    {
+        $this->assertEquals('GGTCG', $this->hashTable->argmax());
     }
 
     /**
@@ -137,9 +111,9 @@ class DNAHashTest extends TestCase
     public function top() : void
     {
         $expected = [
-            'AACAT' => 34,
-            'CGACC' => 33,
-            'AATTA' => 32,
+            'GGTCG' => 21,
+            'CGTGG' => 20,
+            'ACTGC' => 19,
         ];
 
         $this->assertEquals($expected, $this->hashTable->top(3));
@@ -151,11 +125,11 @@ class DNAHashTest extends TestCase
     public function histogram() : void
     {
         $expected = [
-            7 => 0,
-            14 => 65,
-            21 => 279,
-            28 => 151,
-            35 => 17,
+            5 => 78,
+            10 => 550,
+            15 => 362,
+            20 => 33,
+            25 => 1,
         ];
 
         $this->assertEquals($expected, $this->hashTable->histogram(5));
@@ -186,7 +160,7 @@ class DNAHashTest extends TestCase
      */
     public function offsetGet() : void
     {
-        $this->assertEquals(32, $this->hashTable['AATTA']);
+        $this->assertEquals(18, $this->hashTable['AATTA']);
     }
 
     /**

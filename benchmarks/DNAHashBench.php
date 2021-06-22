@@ -65,6 +65,6 @@ class DNAToolsBench
      */
     public function import() : void
     {
-        $this->hashTable->import(new Kmer(25, $this->sequences));
+        $this->hashTable->import($this->sequences, new Kmer(25));
     }
 }

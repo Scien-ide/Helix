@@ -21,7 +21,7 @@ class KmerTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->tokenizer = new Kmer(6, ['CGGTTCAGCANG']);
+        $this->tokenizer = new Kmer(6);
     }
 
     /**
@@ -31,6 +31,8 @@ class KmerTest extends TestCase
     {
         $expected = ['CGGTTC', 'GGTTCA', 'GTTCAG', 'TTCAGC', 'TCAGCA'];
 
-        $this->assertEquals($expected, iterator_to_array($this->tokenizer));
+        $tokens = $this->tokenizer->tokenize('CGGTTCAGCANG');
+
+        $this->assertEquals($expected, iterator_to_array($tokens));
     }
 }

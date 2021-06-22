@@ -2,12 +2,15 @@
 
 namespace DNATools\Tokenizers;
 
-use IteratorAggregate;
+use Generator;
 
-/**
- * @extends IteratorAggregate<int,string>
- */
-interface Tokenizer extends IteratorAggregate
+interface Tokenizer
 {
-    //
+    /**
+     * Return an iterator for the tokens in a sequence.
+     *
+     * @param string $sequence
+     * @return \Generator<string>
+     */
+    public function tokenize(string $sequence) : Generator;
 }
