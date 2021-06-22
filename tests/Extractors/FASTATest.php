@@ -1,18 +1,18 @@
 <?php
 
-namespace DNATools\Tests\Extractors;
+namespace Helix\Tests\Extractors;
 
-use DNATools\Extractors\FASTA;
+use Helix\Extractors\FASTA;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Extractors
- * @covers \DNATools\Extractors\FASTA
+ * @covers \Helix\Extractors\FASTA
  */
 class FASTATest extends TestCase
 {
     /**
-     * @var \DNATools\Extractors\FASTA
+     * @var \Helix\Extractors\FASTA
      */
     protected $extractor;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace DNATools\Extractors;
+namespace Helix\Extractors;
 
-use DNATools\Exceptions\InvalidArgumentException;
-use DNATools\Exceptions\RuntimeException;
+use Helix\Exceptions\InvalidArgumentException;
+use Helix\Exceptions\RuntimeException;
 use Generator;
 
 use function is_dir;
@@ -22,7 +22,7 @@ use function fclose;
  * A memory-efficient FASTQ dataset extractor.
  *
  * @category    Bioinformatics
- * @package     Scienide/DNATools
+ * @package     Scienide/Helix
  * @author      Andrew DalPino
  */
 class FASTQ implements Extractor
@@ -43,7 +43,7 @@ class FASTQ implements Extractor
 
     /**
      * @param string $path
-     * @throws \DNATools\Exceptions\InvalidArgumentException
+     * @throws \Helix\Exceptions\InvalidArgumentException
      */
     public function __construct(string $path)
     {
@@ -69,7 +69,7 @@ class FASTQ implements Extractor
     /**
      * Return an iterator for the sequences in a dataset.
      *
-     * @throws \DNATools\Exceptions\RuntimeException
+     * @throws \Helix\Exceptions\RuntimeException
      * @return \Generator<string>
      */
     public function getIterator() : Generator

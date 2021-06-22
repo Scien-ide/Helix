@@ -1,6 +1,6 @@
 <?php
 
-namespace DNATools\Tokenizers;
+namespace Helix\Tokenizers;
 
 use Generator;
 

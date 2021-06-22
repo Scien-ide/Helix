@@ -1,13 +1,13 @@
 <?php
 
-namespace DNATools\Tests;
+namespace Helix\Tests;
 
-use DNATools\DNAHash;
+use Helix\DNAHash;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Base
- * @covers \DNATools\DNAHash
+ * @covers \Helix\DNAHash
  */
 class DNAHashTest extends TestCase
 {
@@ -20,7 +20,7 @@ class DNAHashTest extends TestCase
     private const RANDOM_SEED = 0;
 
     /**
-     * @var \DNATools\DNAHash
+     * @var \Helix\DNAHash
      */
     protected $hashTable;
 

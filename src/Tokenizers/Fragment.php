@@ -1,8 +1,8 @@
 <?php
 
-namespace DNATools\Tokenizers;
+namespace Helix\Tokenizers;
 
-use DNATools\Exceptions\InvalidArgumentException;
+use Helix\Exceptions\InvalidArgumentException;
 use Generator;
 
 /**
@@ -14,7 +14,7 @@ use Generator;
  *     Fragments that contain invalid bases will not be generated.
  *
  * @category    Bioinformatics
- * @package     Scienide/DNATools
+ * @package     Scienide/Helix
  * @author      Andrew DalPino
  */
 class Fragment implements Tokenizer
@@ -35,7 +35,7 @@ class Fragment implements Tokenizer
 
     /**
      * @param int $n
-     * @throws \DNATools\Exceptions\InvalidArgumentException
+     * @throws \Helix\Exceptions\InvalidArgumentException
      */
     public function __construct(int $n)
     {

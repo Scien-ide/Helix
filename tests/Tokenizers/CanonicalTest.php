@@ -1,19 +1,19 @@
 <?php
 
-namespace DNATools\Tests\Tokenizers;
+namespace Helix\Tests\Tokenizers;
 
-use DNATools\Tokenizers\Canonical;
-use DNATools\Tokenizers\Kmer;
+use Helix\Tokenizers\Canonical;
+use Helix\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Tokenizers
- * @covers \DNATools\Tokenizers\Canonical
+ * @covers \Helix\Tokenizers\Canonical
  */
 class CanonicalTest extends TestCase
 {
     /**
-     * @var \DNATools\Tokenizers\Canonical
+     * @var \Helix\Tokenizers\Canonical
      */
     protected $tokenizer;
 

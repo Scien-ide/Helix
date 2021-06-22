@@ -1,18 +1,18 @@
 <?php
 
-namespace DNATools\Tests\Tokenizers;
+namespace Helix\Tests\Tokenizers;
 
-use DNATools\Tokenizers\Fragment;
+use Helix\Tokenizers\Fragment;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Tokenizers
- * @covers \DNATools\Tokenizers\Fragment
+ * @covers \Helix\Tokenizers\Fragment
  */
 class FragmentTest extends TestCase
 {
     /**
-     * @var \DNATools\Tokenizers\Fragment
+     * @var \Helix\Tokenizers\Fragment
      */
     protected $tokenizer;
 

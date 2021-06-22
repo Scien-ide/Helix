@@ -1,18 +1,18 @@
 <?php
 
-namespace DNATools\Tests\Tokenizers;
+namespace Helix\Tests\Tokenizers;
 
-use DNATools\Tokenizers\Kmer;
+use Helix\Tokenizers\Kmer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group Tokenizers
- * @covers \DNATools\Tokenizers\Kmer
+ * @covers \Helix\Tokenizers\Kmer
  */
 class KmerTest extends TestCase
 {
     /**
-     * @var \DNATools\Tokenizers\Kmer
+     * @var \Helix\Tokenizers\Kmer
      */
     protected $tokenizer;
 

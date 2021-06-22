@@ -1,20 +1,20 @@
-# DNA Tools
-A PHP hash table optimized for counting short gene sequences for use in Bioinformatics. DNA Hash stores sequence counts by their up2bit encoding - a two-way hash that exploits the fact that each DNA base need only 2 bits to be fully encoded. Accordingly, DNA Hash uses less memory than a lookup table that stores raw gene sequences. In addition, DNA Hash's layered Bloom filter eliminates the need to explicitly store counts for sequences that have only been seen once.
+# Helix
+A library for counting short DNA sequences for use in Bioinformatics. Helix consists of tools for data extraction as well as an ultra-low memory hash table called *DNA Hash* specialized for counting DNA sequences. DNA Hash stores sequence counts by their up2bit encoding - a two-way hash that exploits the fact that each DNA base need only 2 bits to be fully encoded. Accordingly, DNA Hash uses less memory than a lookup table that stores raw gene sequences. In addition, DNA Hash's layered Bloom filter eliminates the need to explicitly store counts for sequences that have only been seen once.
 
 - **Ultra-low** memory footprint
-- **Compatible** with multiple dataset formats
+- **Compatible** with FASTA and FASTQ formats
 - **Supports** canonical sequence counting
 - **Open-source** and free to use commercially
 
 > **Note:** The maximum sequence length is platform dependent. On a 64-bit machine, the max length is 31. On a 32-bit machine, the max length is 15.
 
-> **Note:** Due to the probabilistic nature of the Bloom filter, DNA Hash may under count unique sequences at a bounded rate.
+> **Note:** Due to the probabilistic nature of the Bloom filter, DNA Hash may over count sequences at a bounded rate.
 
 ## Installation
 Install into your project using [Composer](https://getcomposer.org/):
 
 ```sh
-$ composer require scienide/dnatools
+$ composer require scienide/helix
 ```
 
 ### Requirements
@@ -23,16 +23,24 @@ $ composer require scienide/dnatools
 ## Example Usage
 
 ```php
-use DNATools\DNATools;
-use DNATools\Extractors\FASTA;
-use DNATools\Tokenizers\Canonical;
-use DNATools\Tokenizers\Kmer;
+use Helix\DNAHash;
+use Helix\Extractors\FASTA;
+use Helix\Tokenizers\Canonical;
+use Helix\Tokenizers\Kmer;
 
 $extractor = new FASTA('example.fa');
 
-$hashTable = new DNATools(0.001);
+$tokenizer = new Canonical(new Kmer(25));
 
-$hashTable->import(new Canonical(new Kmer(25, $extractor)));
+$hashTable = new DNAHash(0.001);
+
+foreach ($extractor as $sequence) {
+    $tokens = $tokenizer->tokenize($sequence);
+
+    foreach ($tokens as $token) {
+        $hashTable->increment($token);
+    }
+}
 
 $top10 = $hashTable->top(10);
 

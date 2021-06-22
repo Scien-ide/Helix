@@ -1,13 +1,13 @@
 <?php
 
-namespace DNATools\Benchmarks;
+namespace Helix\Benchmarks;
 
-use DNATools\DNAHash;
+use Helix\DNAHash;
 
 /**
  * @BeforeMethods({"setUp"})
  */
-class DNAToolsBench
+class HelixBench
 {
     private const BASES = [
         'A', 'C', 'G', 'T',
@@ -23,7 +23,7 @@ class DNAToolsBench
     protected $sequences;
 
     /**
-     * @var \DNATools\DNAHash
+     * @var \Helix\DNAHash
      */
     protected $hashTable;
 

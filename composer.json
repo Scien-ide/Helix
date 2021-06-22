@@ -1,7 +1,7 @@
 {
-    "name": "scienide/dnatools",
+    "name": "scienide/helix",
     "type": "library",
-    "description": "A PHP hash table optimized for counting short gene sequences called k-mers for use in Bioinformatics.",
+    "description": "A library for counting short DNA sequences for use in Bioinformatics.",
     "license": "MIT",
     "readme": "README.md",
     "keywords": [
@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DNATools\\": "src/"
+            "Helix\\": "src/"
         },
         "files": [
             "src/functions.php"
@@ -36,8 +36,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "DNATools\\Benchmarks\\": "benchmarks/",
-            "DNATools\\Tests\\": "tests/"
+            "Hexlix\\Benchmarks\\": "benchmarks/",
+            "Helix\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -67,9 +67,9 @@
         }
     ],
     "support": {
-        "docs": "https://github.com/Scien-ide/DNATools/README.md",
-        "issues": "https://github.com/Scien-ide/DNATools/issues",
-        "source": "https://github.com/Scien-ide/DNATools",
+        "docs": "https://github.com/Scien-ide/Helix/README.md",
+        "issues": "https://github.com/Scien-ide/Helix/issues",
+        "source": "https://github.com/Scien-ide/Helix",
         "email": "support@andrewdalpino.com"
     },
     "minimum-stability": "dev",

@@ -1,6 +1,6 @@
 <?php
 
-namespace DNATools\Extractors;
+namespace Helix\Extractors;
 
 use Generator;
 
@@ -10,7 +10,7 @@ use Generator;
  * Concatenates the output of multiple extractors.
  *
  * @category    Bioinformatics
- * @package     Scienide/DNATools
+ * @package     Scienide/Helix
  * @author      Andrew DalPino
  */
 class Concatenator implements Extractor

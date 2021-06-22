@@ -1,6 +1,6 @@
 <?php
 
-namespace DNATools\Exceptions;
+namespace Helix\Exceptions;
 
 class InvalidBase extends InvalidArgumentException
 {

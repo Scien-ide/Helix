@@ -1,12 +1,12 @@
 <?php
 
-namespace DNATools;
+namespace Helix;
 
 use OkBloomer\BloomFilter;
-use DNATools\Exceptions\InvalidArgumentException;
-use DNATools\Exceptions\RuntimeException;
-use DNATools\Exceptions\SequenceTooLong;
-use DNATools\Exceptions\InvalidBase;
+use Helix\Exceptions\InvalidArgumentException;
+use Helix\Exceptions\RuntimeException;
+use Helix\Exceptions\SequenceTooLong;
+use Helix\Exceptions\InvalidBase;
 use ArrayAccess;
 use Countable;
 use Generator;
@@ -31,7 +31,7 @@ use function max;
  * [3] S. Deorowicz et al. (2015). KMC 2: fast and resource-frugal k-mer counting.
  *
  * @category    Bioinformatics
- * @package     Scienide/DNATools
+ * @package     Scienide/Helix
  * @author      Andrew DalPino
  *
  * @implements ArrayAccess<string, int>
@@ -103,8 +103,8 @@ class DNAHash implements ArrayAccess, Countable
      * Encode a sequence as an integer using the up2bit format.
      *
      * @param string $sequence
-     * @throws \DNATools\Exceptions\SequenceTooLong
-     * @throws \DNATools\Exceptions\InvalidBase
+     * @throws \Helix\Exceptions\SequenceTooLong
+     * @throws \Helix\Exceptions\InvalidBase
      * @return int
      */
     protected static function encode(string $sequence) : int
@@ -286,7 +286,7 @@ class DNAHash implements ArrayAccess, Countable
      * Return the k sequences with the highest counts.
      *
      * @param int $k
-     * @throws \DNATools\Exceptions\InvalidArgumentException
+     * @throws \Helix\Exceptions\InvalidArgumentException
      * @return \Generator<string,int>
      */
     public function top(int $k = 10) : Generator
@@ -317,8 +317,8 @@ class DNAHash implements ArrayAccess, Countable
      * Return a histogram of sequences bucketed by their counts.
      *
      * @param int $bins
-     * @throws \DNATools\Exceptions\InvalidArgumentException
-     * @throws \DNATools\Exceptions\RuntimeException
+     * @throws \Helix\Exceptions\InvalidArgumentException
+     * @throws \Helix\Exceptions\RuntimeException
      * @return int[]
      */
     public function histogram(int $bins = 10) : array
@@ -369,7 +369,7 @@ class DNAHash implements ArrayAccess, Countable
      *
      * @param string $sequence
      * @param int $count
-     * @throws \DNATools\Exceptions\InvalidArgumentException
+     * @throws \Helix\Exceptions\InvalidArgumentException
      */
     public function offsetSet($sequence, $count) : void
     {
@@ -408,7 +408,7 @@ class DNAHash implements ArrayAccess, Countable
      * Return the count for a given sequence.
      *
      * @param string $sequence
-     * @throws \DNATools\Exceptions\InvalidArgumentException
+     * @throws \Helix\Exceptions\InvalidArgumentException
      * @return int
      */
     public function offsetGet($sequence) : int
@@ -428,7 +428,7 @@ class DNAHash implements ArrayAccess, Countable
 
     /**
      * @param string $sequence
-     * @throws \DNATools\Exceptions\RuntimeException
+     * @throws \Helix\Exceptions\RuntimeException
      */
     public function offsetUnset($sequence) : void
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace DNATools\Extractors;
+namespace Helix\Extractors;
 
 interface Writable
 {

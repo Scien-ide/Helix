@@ -1,10 +1,10 @@
 <?php
 
-namespace DNATools\Exceptions;
+namespace Helix\Exceptions;
 
 use InvalidArgumentException as SplInvalidArgumentException;
 
-class InvalidArgumentException extends SplInvalidArgumentException implements DNAToolsException
+class InvalidArgumentException extends SplInvalidArgumentException implements HelixException
 {
     //
 }

@@ -1,15 +1,15 @@
 <?php
 
-namespace DNATools\Tokenizers;
+namespace Helix\Tokenizers;
 
-use DNATools\Exceptions\InvalidBase;
+use Helix\Exceptions\InvalidBase;
 use Generator;
 
 /**
  * Canonical
  *
  * @category    Bioinformatics
- * @package     Scienide/DNATools
+ * @package     Scienide/Helix
  * @author      Andrew DalPino
  */
 class Canonical implements Tokenizer
@@ -29,9 +29,9 @@ class Canonical implements Tokenizer
     /**
      * The base tokenizer.
      *
-     * @var \DNATools\Tokenizers\Tokenizer
+     * @var \Helix\Tokenizers\Tokenizer
      */
-    protected \DNATools\Tokenizers\Tokenizer $base;
+    protected \Helix\Tokenizers\Tokenizer $base;
 
     /**
      * Return the reverse compliment of a sequence.
@@ -57,7 +57,7 @@ class Canonical implements Tokenizer
     }
 
     /**
-     * @param \DNATools\Tokenizers\Tokenizer $base
+     * @param \Helix\Tokenizers\Tokenizer $base
      */
     public function __construct(Tokenizer $base)
     {
